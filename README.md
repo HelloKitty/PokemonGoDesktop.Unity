@@ -1,16 +1,14 @@
-# PokemonGODesktop.API
+# PokemonGoDesktop.Unity
 
-PokemonGODesktop.API is a collection of **net35** libraries and APIs that can be used to implement a fully functional desktop version of Pokemon Go. It's built on top of reverse engineered work from the community, based on the protobuf defintions ranging from python projects to .Net projects. PokemonGODesktop.API channels the entire community's work into a push for a standalone version of the game.
+PokemonGoDesktop.Unity is an Implementation of the PokemonGoDesktop.API for Unity3D. Based on async/await practices in Pokemon Go HTTP bots PokemonGoDesktop utilizes a custom async API to allow for easy coroutine and callback-based HTTP handling on the main thread.
+
+**What is PokemonGoDesktop.API?**
+
+[PokemonGODesktop.API](https://github.com/HelloKitty/PokemonGoDesktop.API) is a collection of **net35** libraries and APIs that can be used to implement a fully functional desktop version of Pokemon Go. It's built on top of reverse engineered work from the community, based on the protobuf defintions ranging from python projects to .Net projects. PokemonGODesktop.API channels the entire community's work into a push for a standalone version of the game.
 
 ## Project Overview
 
-[Proto Definitions](https://github.com/HelloKitty/PokemonGoDesktop.API/tree/master/src/PokemonGoDesktop.API.Proto): Contains the .proto definitions for serializable types and request/response message types. Additionally it contains the code generated Google.Protobuf classes that are actually compilable.
-
-[Proto Compiler](https://github.com/HelloKitty/PokemonGoDesktop.API/tree/master/src/PokemonGoDesktop.API.Proto.Compiler): Contains the source for the simple directory recursive argument builder that are needed to compile the .proto definitions with Protoc. Also invokes Protoc with those arguments generating the code in the **Gen** directory of the Proto project. Additionally, this compiler generates marker interfaces on some proto classes to help enforce some compiler protection for things.
-
-[Proto Services](https://github.com/HelloKitty/PokemonGoDesktop.API/tree/master/src/PokemonGoDesktop.API.Proto.Services): Contains extensions for various important proto generated classes for Pokemon Go. Also implementing some services for creating or reading from commonly used proto classes in Pokemon Go.
-
-[Client Services](https://github.com/HelloKitty/PokemonGoDesktop.API/tree/master/src/PokemonGoDesktop.API.Client.Services): Contains interfaces, contracts and types important to building a Pokemon Go client. Including only the bare minimum. Contains nothing related to game logic.
+[TBA]
 
 ## Attributions
 
@@ -32,8 +30,8 @@ Available on a Nuget Feed: https://www.myget.org/F/hellokitty/api/v2 [![hellokit
 #### Linux/Mono - Unit Tests
 ||Debug x86|Debug x64|Release x86|Release x64|
 |:--:|:--:|:--:|:--:|:--:|:--:|
-|**master**| N/A | N/A | N/A | [![Build Status](https://travis-ci.org/HelloKitty/PokemonGoDesktop.API.svg?branch=master)](https://travis-ci.org/HelloKitty/PokemonGoDesktop.API) |
-|**dev**| N/A | N/A | N/A | [![Build Status](https://travis-ci.org/HelloKitty/PokemonGoDesktop.API.svg?branch=dev)](https://travis-ci.org/HelloKitty/PokemonGoDesktop.API)|
+|**master**| N/A | N/A | N/A | [![Build Status](https://travis-ci.org/HelloKitty/PokemonGoDesktop.Unity.svg?branch=master)](https://travis-ci.org/HelloKitty/PokemonGoDesktop.Unity) |
+|**dev**| N/A | N/A | N/A | [![Build Status](https://travis-ci.org/HelloKitty/PokemonGoDesktop.API.svg?branch=dev)](https://travis-ci.org/HelloKitty/PokemonGoDesktop.Unity)|
 
 #### Windows - Unit Tests
 
