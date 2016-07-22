@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B7229D09-996D-4DDE-A60C-99E76CC817F7}</ProjectGuid>
+    <ProjectGuid>{CCEF1FEC-3A0A-44E3-A719-BDAD5E82E99B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokemonGoDesktop.Unity.HTTP</RootNamespace>
-    <AssemblyName>PokemonGoDesktop.Unity.HTTP</AssemblyName>
+    <RootNamespace>PokemonGoDesktop.Unity.HTTP.RestSharp</RootNamespace>
+    <AssemblyName>PokemonGoDesktop.Unity.HTTP.RestSharp</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -53,15 +53,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Async\AsyncRequestFuture.cs" />
-    <Compile Include="Async\IAsyncNetworkRequestService.cs" />
-    <Compile Include="Async\IFuture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PokemonGoDesktop.Unity.HTTP\PokemonGoDesktop.Unity.HTTP.csproj">
+      <Project>{b7229d09-996d-4dde-a60c-99e76cc817f7}</Project>
+      <Name>PokemonGoDesktop.Unity.HTTP</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Async\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
