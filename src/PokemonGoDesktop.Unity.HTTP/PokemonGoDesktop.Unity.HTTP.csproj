@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Async\AsyncRequestFuture.cs" />
     <Compile Include="Async\IAsyncNetworkRequestService.cs" />
+    <Compile Include="Async\IAsyncUserNetworkRequestService.cs" />
     <Compile Include="Async\IFuture.cs" />
     <Compile Include="Async\ResponseState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
