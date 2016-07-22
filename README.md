@@ -31,7 +31,7 @@ Available on a Nuget Feed: https://www.myget.org/F/hellokitty/api/v2 [![hellokit
 ||Debug x86|Debug x64|Release x86|Release x64|
 |:--:|:--:|:--:|:--:|:--:|:--:|
 |**master**| N/A | N/A | N/A | [![Build Status](https://travis-ci.org/HelloKitty/PokemonGoDesktop.Unity.svg?branch=master)](https://travis-ci.org/HelloKitty/PokemonGoDesktop.Unity) |
-|**dev**| N/A | N/A | N/A | [![Build Status](https://travis-ci.org/HelloKitty/PokemonGoDesktop.API.svg?branch=dev)](https://travis-ci.org/HelloKitty/PokemonGoDesktop.Unity)|
+|**dev**| N/A | N/A | N/A | [![Build Status](https://travis-ci.org/HelloKitty/PokemonGoDesktop.Unity.svg?branch=dev)](https://travis-ci.org/HelloKitty/PokemonGoDesktop.Unity)|
 
 #### Windows - Unit Tests
 
