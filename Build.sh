@@ -1,0 +1,1 @@
+xbuild ./PokemonGoDesktop.Unity.sln /p:DebugSymbols=False
