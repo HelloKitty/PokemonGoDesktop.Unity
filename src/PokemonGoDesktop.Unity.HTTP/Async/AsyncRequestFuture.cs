@@ -1,4 +1,5 @@
-﻿using PokemonGoDesktop.API.Proto;
+﻿using Google.Protobuf;
+using PokemonGoDesktop.API.Proto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +13,12 @@ namespace PokemonGoDesktop.Unity.HTTP
 	/// </summary>
 	/// <typeparam name="TResponseMessageType"></typeparam>
 	public abstract class AsyncRequestFuture<TResponseMessageType> : IFuture<TResponseMessageType>
-		where TResponseMessageType : class, IResponseMessage
+		where TResponseMessageType : class, IResponseMessage, IMessage, new()
 	{
-		public enum State
-		{
-			Uncompleted,
-			Invalid,
-			Valid
-		}
-
 		/// <summary>
 		/// Indicates the state of the <see cref="Result"/>.
 		/// </summary>
-		public virtual State ResultState { get; protected set; } = State.Uncompleted;
+		public virtual ResponseState ResultState { get; protected set; } = ResponseState.Uncompleted;
 
 		/// <summary>
 		/// Indicates if the request has completed.
@@ -34,6 +28,6 @@ namespace PokemonGoDesktop.Unity.HTTP
 		/// <summary>
 		/// The Response result when completed. Will be null if incompleted.
 		/// </summary>
-		public virtual TResponseMessageType Result { get; } = null;
+		public virtual TResponseMessageType Result { get; protected set; } = null;
 	}
 }

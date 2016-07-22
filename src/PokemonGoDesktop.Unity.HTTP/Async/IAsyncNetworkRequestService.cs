@@ -1,4 +1,5 @@
-﻿using Networking.Envelopes;
+﻿using Google.Protobuf;
+using Networking.Envelopes;
 using PokemonGoDesktop.API.Proto;
 using System;
 using System.Collections.Generic;
@@ -10,17 +11,9 @@ namespace PokemonGoDesktop.Unity.HTTP
 	/// <summary>
 	/// Network <see cref="RequestEnvelope"/> request sending service.
 	/// </summary>
+	//TODO: Add URL/URI functionality to request sending
 	public interface IAsyncNetworkRequestService
 	{
-		/// <summary>
-		/// Tries to send the <see cref="RequestEnvelope"/> message to the network.
-		/// Returns an <see cref="IResponseMessage"/> when completed.
-		/// </summary>
-		/// <param name="envolope">Envolope to send.</param>
-		/// <param name="onResponse">Optional delegate to invoke on response recieved.</param>
-		/// <returns>An awaitable future result.</returns>
-		AsyncRequestFuture<IResponseMessage> SendRequest(RequestEnvelope envolope, Action<IResponseMessage> onResponse = null);
-
 		/// <summary>
 		/// Tries to send the <see cref="RequestEnvelope"/> message to the network.
 		/// Returns an <typeparamref name="TResponseType"/> when completed.
@@ -30,6 +23,6 @@ namespace PokemonGoDesktop.Unity.HTTP
 		/// <typeparam name="TResponseType">The response type expected back.</typeparam>
 		/// <returns>An awaitable future result.</returns>
 		AsyncRequestFuture<TResponseType> SendRequest<TResponseType>(RequestEnvelope envolope, Action<TResponseType> onResponse = null)
-			where TResponseType : class, IResponseMessage;
+			where TResponseType : class, IResponseMessage, IMessage, new();
 	}
 }

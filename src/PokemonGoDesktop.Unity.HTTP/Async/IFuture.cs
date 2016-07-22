@@ -18,6 +18,10 @@ namespace PokemonGoDesktop.Unity.HTTP
 		/// </summary>
 		bool isCompleted { get; }
 
+		/// <summary>
+		/// Represents the future response.
+		/// Usually null if unavailable.
+		/// </summary>
 		TFutureType Result { get; }
 	}
 }
