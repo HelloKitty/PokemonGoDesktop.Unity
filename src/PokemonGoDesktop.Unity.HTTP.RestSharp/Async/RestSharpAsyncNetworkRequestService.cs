@@ -40,27 +40,28 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 				"application/x-www-form-urlencoded");
 		}
 
-		//TODO: Add URL/URI functionality to request sending
 		/// <summary>
 		/// Tries to send the <see cref="RequestEnvelope"/> message to the network.
 		/// Returns an <typeparamref name="TResponseType"/> when completed.
 		/// </summary>
 		/// <param name="envolope">Envolope to send.</param>
-		/// <param name="onResponse">Optional delegate to invoke on response recieved.</param>
-		/// <typeparam name="TResponseType">The response type expected back.</typeparam>
 		/// <returns>An awaitable future result.</returns>
-		public AsyncRequestFuture<TResponseType> SendRequest<TResponseType>(RequestEnvelope envolope)
-			where TResponseType : class, IResponseMessage, IMessage, new()
+		public IFuture<ResponseEnvelope> SendRequest<TResponseType>(RequestEnvelope envolope, IFuture<TResponseType> responseMessageFuture)
+			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
 		{
-			RestSharpAsyncRequestFuture<TResponseType> future = new RestSharpAsyncRequestFuture<TResponseType>();
+			throw new NotImplementedException();
+		}
 
-			//TODO: Add URL/URI
-			IRestRequest request = new RestRequest().AddParameter(new Parameter() { Value = envolope.ToByteArray() });
-
-			//To send protobuf requests 
-			httpClient.PostAsync(request, future.OnResponse); //we have to provide the future as the callback
-
-			return future;
+		/// <summary>
+		/// Tries to send the <see cref="RequestEnvelope"/> message to the network.
+		/// Returns an <typeparamref name="TResponseType"/> when completed.
+		/// </summary>
+		/// <param name="envolope">Envolope to send.</param>
+		/// <returns>An awaitable future result.</returns>
+		public IFuture<ResponseEnvelope> SendRequest<TResponseType>(RequestEnvelope envolope, IFuture<IEnumerable<TResponseType>> responseMessageFuture)
+			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -38,23 +38,23 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Google.Protobuf, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.3\lib\net35\Google.Protobuf.dll</HintPath>
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.7\lib\net35\Google.Protobuf.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokemonGoDesktop.API.Client.Services, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.3\lib\net35\PokemonGoDesktop.API.Client.Services.dll</HintPath>
+    <Reference Include="PokemonGoDesktop.API.Client.Services, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.7\lib\net35\PokemonGoDesktop.API.Client.Services.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokemonGoDesktop.API.Common, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Common.1.0.3\lib\net35\PokemonGoDesktop.API.Common.dll</HintPath>
+    <Reference Include="PokemonGoDesktop.API.Common, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Common.1.0.7\lib\net35\PokemonGoDesktop.API.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokemonGoDesktop.API.Proto, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.1.0.3\lib\net35\PokemonGoDesktop.API.Proto.dll</HintPath>
+    <Reference Include="PokemonGoDesktop.API.Proto, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.1.0.7\lib\net35\PokemonGoDesktop.API.Proto.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokemonGoDesktop.API.Proto.Services, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.Services.1.0.3\lib\net35\PokemonGoDesktop.API.Proto.Services.dll</HintPath>
+    <Reference Include="PokemonGoDesktop.API.Proto.Services, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.Services.1.0.7\lib\net35\PokemonGoDesktop.API.Proto.Services.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -91,7 +91,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Session\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
