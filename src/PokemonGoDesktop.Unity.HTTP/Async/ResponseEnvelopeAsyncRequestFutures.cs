@@ -10,11 +10,11 @@ using System.Text;
 namespace PokemonGoDesktop.Unity.HTTP
 {
 	/// <summary>
-	/// ResponseEnvelope-based implementation of <see cref="AsyncRequestFuture{TResponseMessageType}"/> to be used for async
+	/// ResponseEnvelope-based implementation of <see cref="AsyncRequestFutures{TResponseMessageType}"/> to be used for async
 	/// requests.
 	/// </summary>
 	/// <typeparam name="TResponseMessageType">Expected <see cref="IResponseMessage"/> type.</typeparam>
-	public class ResponseEnvelopeAsyncRequestFuture<TResponseMessageType> : AsyncRequestFuture<TResponseMessageType>, IAsyncCallBackTarget
+	public class ResponseEnvelopeAsyncRequestFutures<TResponseMessageType> : AsyncRequestFutures<TResponseMessageType>, IAsyncCallBackTarget
 		where TResponseMessageType : class, IResponseMessage, IMessage, new()
 	{
 		/// <summary>
@@ -22,7 +22,7 @@ namespace PokemonGoDesktop.Unity.HTTP
 		/// </summary>
 		private static Func<TResponseMessageType> compiledNewLambda { get; }
 
-		static ResponseEnvelopeAsyncRequestFuture()
+		static ResponseEnvelopeAsyncRequestFutures()
 		{
 			//new() in .Net 3.5 is VERY VERY slow with generic types
 			//This is because Activator is very slow; we use compiled Lambda instead.
@@ -52,15 +52,24 @@ namespace PokemonGoDesktop.Unity.HTTP
 			lock (syncObj)
 			{
 				//We should check the bytes returned in a response
-				//We expect a Payload.
+				//We expect a payload or more
 				if (envelope.Returns.Count > 0)
 				{
-					TResponseMessageType responseProtoMessage = compiledNewLambda();
+					//Create a collection of the responses
+					List<TResponseMessageType> responseMessageInstances = new List<TResponseMessageType>(envelope.Returns.Count);
 
-					//Take the bytes and push into the proto message
-					responseProtoMessage.MergeFrom(envelope.Returns.First());
+					foreach(var r in envelope.Returns)
+					{
+						TResponseMessageType responseProtoMessage = compiledNewLambda();
 
-					if(responseProtoMessage != null)
+						//Take the bytes and push into the response
+						responseProtoMessage.MergeFrom(r);
+
+						responseMessageInstances.Add(responseProtoMessage);
+					}
+
+					//Differing from the logic in other single future
+					if(responseMessageInstances.Count != 0)
 					{
 						ResultState = FutureState.Invalid;
 						isCompleted = true;
@@ -68,7 +77,7 @@ namespace PokemonGoDesktop.Unity.HTTP
 					else
 					{
 						ResultState = FutureState.Valid;
-						Result = responseProtoMessage;
+						Result = responseMessageInstances;
 						isCompleted = true;
 					}
 				}

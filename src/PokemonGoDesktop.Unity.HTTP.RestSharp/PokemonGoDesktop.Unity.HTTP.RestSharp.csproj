@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Async\IAsyncRestResponseCallBackTarget.cs" />
     <Compile Include="Async\RestSharpAsyncNetworkRequestService.cs" />
+    <Compile Include="Async\RestSharpAsyncRequestFuturesDeserializationDecorator.cs" />
     <Compile Include="Async\RestSharpAsyncRequestFutureDeserializationDecorator.cs" />
     <Compile Include="Login\PTCRestSharpLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

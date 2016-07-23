@@ -18,7 +18,7 @@ namespace PokemonGoDesktop.Unity.HTTP
 		/// <summary>
 		/// Indicates the state of the <see cref="Result"/>.
 		/// </summary>
-		public virtual ResponseState ResultState { get; protected set; } = ResponseState.Uncompleted;
+		public virtual FutureState ResultState { get; protected set; } = FutureState.Uncompleted;
 
 		/// <summary>
 		/// Indicates if the request has completed.
