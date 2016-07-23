@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PokemonGoDesktop.Unity.HTTP.RestSharp
+namespace PokemonGoDesktop.Unity.HTTP
 {
 	[JsonObject]
-	public class PTCLoginRequestCookieDecorator : ILoginSessionCookie
+	public class PTCLoginRequestCookieDecorator : IPTCLoginSessionCookie
 	{
 		[JsonProperty(PropertyName = "lt")]
 		public string LT { get; private set; }
@@ -25,18 +25,11 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		[JsonProperty(PropertyName = "_eventId")]
 		public string EventId { get;} = "submit";
 
-		public PTCLoginRequestCookieDecorator(ILoginSessionCookie cookieData)
+		public PTCLoginRequestCookieDecorator(IPTCLoginSessionCookie cookieData)
 		{
 			//set the cookie data
 			LT = cookieData.LT;
 			ExecutionID = cookieData.ExecutionID;
 		}
 	}
-
-	//from Rocket-API
-	/*new KeyValuePair<string, string>("lt", lt),
-							new KeyValuePair<string, string>("execution", executionId),
-							new KeyValuePair<string, string>("_eventId", "submit"),
-							new KeyValuePair<string, string>("username", username),
-							new KeyValuePair<string, string>("password", password),*/
 }

@@ -79,9 +79,6 @@
     <Compile Include="Async\IRestSharpAsyncTarget.cs" />
     <Compile Include="Async\RestSharpAsyncNetworkRequestService.cs" />
     <Compile Include="Async\RestSharpAsyncRequestFuture.cs" />
-    <Compile Include="Login\ILoginSessionCookie.cs" />
-    <Compile Include="Login\PTCLoginRequestCookieDecorator.cs" />
-    <Compile Include="Login\PTCLoginSessionCookie.cs" />
     <Compile Include="Login\PTCRestSharpLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
