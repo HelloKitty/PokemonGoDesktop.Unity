@@ -67,6 +67,7 @@
     <Compile Include="Login\PTCLoginRequestCookieDecorator.cs" />
     <Compile Include="Login\PTCLoginSessionCookie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IResponseEnvelopeMiddleware.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
