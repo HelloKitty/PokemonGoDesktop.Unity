@@ -1,4 +1,4 @@
-﻿using Networking.Envelopes;
+﻿using PokemonGoDesktop.API.Proto;
 using System;
 using System.Collections.Generic;
 using System.Linq;

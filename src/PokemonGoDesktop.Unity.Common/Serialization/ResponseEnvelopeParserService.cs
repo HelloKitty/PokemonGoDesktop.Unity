@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Google.Protobuf;
-using Networking.Envelopes;
 using PokemonGoDesktop.API.Proto;
 
 namespace PokemonGoDesktop.Unity.Common
@@ -13,21 +12,14 @@ namespace PokemonGoDesktop.Unity.Common
 	public class ResponseEnvelopeParserService : IResponseEnvelopeParserService
 	{
 		//compiled lamdas
-
-
-		public IEnumerable<TResponseMessageType> ParseAll<TResponseMessageType>(ResponseEnvelope responseEnvelope)
-			where TResponseMessageType : IRequestMessage, IMessage<TResponseMessageType>, IMessage
+		public IEnumerable<TResponseMessageType> ParseAll<TResponseMessageType>(ResponseEnvelope responseEnvelope) 
+			where TResponseMessageType : IRequestMessage, IMessage<TResponseMessageType>, IMessage, new()
 		{
-			/*if(responseEnvelope.Returns.Count > 0)
-			{
-				responseEnvelope.Returns.First()
-			}*/
-
 			throw new NotImplementedException();
 		}
 
-		public TResponseMessageType ParseOne<TResponseMessageType>(ResponseEnvelope responseEnvelope)
-			where TResponseMessageType : IRequestMessage, IMessage<TResponseMessageType>, IMessage
+		public TResponseMessageType ParseOne<TResponseMessageType>(ResponseEnvelope responseEnvelope) 
+			where TResponseMessageType : IRequestMessage, IMessage<TResponseMessageType>, IMessage, new()
 		{
 			throw new NotImplementedException();
 		}

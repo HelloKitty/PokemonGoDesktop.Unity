@@ -1,9 +1,12 @@
 ﻿using NUnit.Framework;
 using PokemonGoDesktop.API.Client.Services;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Threading;
 
 namespace PokemonGoDesktop.Unity.HTTP.RestSharp.Tests
 {

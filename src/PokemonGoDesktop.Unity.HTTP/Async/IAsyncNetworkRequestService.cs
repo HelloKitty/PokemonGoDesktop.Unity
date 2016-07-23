@@ -1,5 +1,4 @@
 ﻿using Google.Protobuf;
-using Networking.Envelopes;
 using PokemonGoDesktop.API.Proto;
 using System;
 using System.Collections.Generic;
@@ -18,18 +17,20 @@ namespace PokemonGoDesktop.Unity.HTTP
 		/// Tries to send the <see cref="RequestEnvelope"/> message to the network.
 		/// Returns an <typeparamref name="TResponseType"/> when completed.
 		/// </summary>
-		/// <param name="envolope">Envolope to send.</param>
+		/// <param name="envelope">Envolope to send.</param>
 		/// <returns>An awaitable future result.</returns>
-		IFuture<ResponseEnvelope> SendRequest<TResponseType>(RequestEnvelope envolope, IFuture<TResponseType> responseMessageFuture)
-			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new();
+		IFuture<TResponseType> SendRequestAsFuture<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture)
+			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
+			where TFutureType : AsyncRequestFuture<TResponseType>, IAsyncCallBackTarget;
 
 		/// <summary>
 		/// Tries to send the <see cref="RequestEnvelope"/> message to the network.
 		/// Returns an <typeparamref name="TResponseType"/> when completed.
 		/// </summary>
-		/// <param name="envolope">Envolope to send.</param>
+		/// <param name="envelope">Envolope to send.</param>
 		/// <returns>An awaitable future result.</returns>
-		IFuture<ResponseEnvelope> SendRequest<TResponseType>(RequestEnvelope envolope, IFuture<IEnumerable<TResponseType>> responseMessageFuture)
-			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new();
+		IFuture<IEnumerable<TResponseType>> SendRequestAsFutures<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture)
+			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
+			where TFutureType : AsyncRequestFutures<TResponseType>, IAsyncCallBackTarget;
 	}
 }

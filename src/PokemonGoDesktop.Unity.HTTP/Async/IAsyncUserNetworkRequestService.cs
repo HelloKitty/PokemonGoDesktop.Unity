@@ -1,5 +1,4 @@
 ﻿using Google.Protobuf;
-using Networking.Envelopes;
 using PokemonGoDesktop.API.Proto;
 using System;
 using System.Collections.Generic;
