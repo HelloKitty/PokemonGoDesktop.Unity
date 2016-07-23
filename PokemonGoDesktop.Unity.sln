@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DD592D6C-44E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGoDesktop.Unity.HTTP.RestSharp", "src\PokemonGoDesktop.Unity.HTTP.RestSharp\PokemonGoDesktop.Unity.HTTP.RestSharp.csproj", "{CCEF1FEC-3A0A-44E3-A719-BDAD5E82E99B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{59797FCF-FF7B-499E-AF0F-AACBD3514B30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGoDesktop.Unity.HTTP.RestSharp.Tests", "tests\PokemonGoDesktop.Unity.HTTP.RestSharp.Tests\PokemonGoDesktop.Unity.HTTP.RestSharp.Tests.csproj", "{1B15AFA3-DA16-4C15-AB93-E2C1048E0943}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +27,10 @@ Global
 		{CCEF1FEC-3A0A-44E3-A719-BDAD5E82E99B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCEF1FEC-3A0A-44E3-A719-BDAD5E82E99B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCEF1FEC-3A0A-44E3-A719-BDAD5E82E99B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B15AFA3-DA16-4C15-AB93-E2C1048E0943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B15AFA3-DA16-4C15-AB93-E2C1048E0943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B15AFA3-DA16-4C15-AB93-E2C1048E0943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B15AFA3-DA16-4C15-AB93-E2C1048E0943}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,5 +38,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B7229D09-996D-4DDE-A60C-99E76CC817F7} = {DD592D6C-44E7-4348-A2C1-C5367DE42B78}
 		{CCEF1FEC-3A0A-44E3-A719-BDAD5E82E99B} = {DD592D6C-44E7-4348-A2C1-C5367DE42B78}
+		{1B15AFA3-DA16-4C15-AB93-E2C1048E0943} = {59797FCF-FF7B-499E-AF0F-AACBD3514B30}
 	EndGlobalSection
 EndGlobal

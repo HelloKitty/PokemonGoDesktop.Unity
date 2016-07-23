@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CCEF1FEC-3A0A-44E3-A719-BDAD5E82E99B}</ProjectGuid>
+    <ProjectGuid>{1B15AFA3-DA16-4C15-AB93-E2C1048E0943}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokemonGoDesktop.Unity.HTTP.RestSharp</RootNamespace>
-    <AssemblyName>PokemonGoDesktop.Unity.HTTP.RestSharp</AssemblyName>
+    <RootNamespace>PokemonGoDesktop.Unity.HTTP.RestSharp.Tests</RootNamespace>
+    <AssemblyName>PokemonGoDesktop.Unity.HTTP.RestSharp.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +28,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Easyception, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -39,6 +36,10 @@
     </Reference>
     <Reference Include="Google.Protobuf, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.3\lib\net35\Google.Protobuf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.0.5813.39033, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.3.0.1\lib\net20\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PokemonGoDesktop.API.Client.Services, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
@@ -57,44 +58,30 @@
       <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.Services.1.0.3\lib\net35\PokemonGoDesktop.API.Proto.Services.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RestSharp.105.2.3\lib\net35\RestSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unity.Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Unity.Newtonsoft.Json.7.0.0.0\lib\net35-Client\Unity.Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\lib\Unity3D\UnityEngine.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Async\IRestSharpAsyncTarget.cs" />
-    <Compile Include="Async\RestSharpAsyncNetworkRequestService.cs" />
-    <Compile Include="Async\RestSharpAsyncRequestFuture.cs" />
-    <Compile Include="Login\ILoginSessionCookie.cs" />
-    <Compile Include="Login\PTCLoginRequestCookieDecorator.cs" />
-    <Compile Include="Login\PTCLoginSessionCookie.cs" />
-    <Compile Include="Login\PTCRestSharpLogin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PokemonGoDesktop.Unity.HTTP\PokemonGoDesktop.Unity.HTTP.csproj">
-      <Project>{b7229d09-996d-4dde-a60c-99e76cc817f7}</Project>
-      <Name>PokemonGoDesktop.Unity.HTTP</Name>
-    </ProjectReference>
+    <Compile Include="UnitTests\PTCRestSharpLoginTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\PokemonGoDesktop.Unity.HTTP.RestSharp\PokemonGoDesktop.Unity.HTTP.RestSharp.csproj">
+      <Project>{ccef1fec-3a0a-44e3-a719-bdad5e82e99b}</Project>
+      <Name>PokemonGoDesktop.Unity.HTTP.RestSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\PokemonGoDesktop.Unity.HTTP\PokemonGoDesktop.Unity.HTTP.csproj">
+      <Project>{b7229d09-996d-4dde-a60c-99e76cc817f7}</Project>
+      <Name>PokemonGoDesktop.Unity.HTTP</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
