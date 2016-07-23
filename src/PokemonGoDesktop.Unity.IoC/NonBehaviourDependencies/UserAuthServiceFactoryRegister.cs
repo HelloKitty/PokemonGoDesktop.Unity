@@ -37,7 +37,6 @@ namespace PokemonGoDesktop.Unity.IoC
 				{AuthType.Google, googleLoginUrlDetails }
 			};
 
-
 			UserAuthServiceFactory factory = new UserAuthServiceFactory(authDetailsMap);
 
 			register.Register(factory, getFlags(), typeof(IUserAuthServiceFactory));

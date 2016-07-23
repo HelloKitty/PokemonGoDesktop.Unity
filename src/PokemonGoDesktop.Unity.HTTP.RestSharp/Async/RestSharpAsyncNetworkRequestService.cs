@@ -30,6 +30,8 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		public RestSharpAsyncNetworkRequestService()
 		{
 			//headers based on: https://github.com/FeroxRev/Pokemon-Go-Rocket-API/blob/master/PokemonGo.RocketAPI/Client.cs
+			httpClient = new RestClient();
+
 
 			httpClient.AddDefaultHeader("User-Agent", "Niantic App");
 			//"Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-G900F Build/LMY48G)");
