@@ -1,5 +1,4 @@
 ﻿using Google.Protobuf;
-using Networking.Envelopes;
 using PokemonGoDesktop.API.Proto;
 using System;
 using System.Collections.Generic;
@@ -23,6 +22,17 @@ namespace PokemonGoDesktop.Unity.HTTP
 		/// <typeparam name="TResponseType">The response type expected back.</typeparam>
 		/// <returns>An awaitable future result.</returns>
 		AsyncRequestFuture<TResponseType> SendRequest<TResponseType>(RequestEnvelope envolope, Action<TResponseType> onResponse = null)
+			where TResponseType : class, IResponseMessage, IMessage, new();
+
+		/// <summary>
+		/// Tries to send the <see cref="RequestEnvelope"/> message to the network.
+		/// Returns an <typeparamref name="IEnumerable{TResponseType}"/> when completed.
+		/// </summary>
+		/// <param name="envolope">Envolope to send.</param>
+		/// <param name="onResponse">Optional delegate to invoke on response recieved.</param>
+		/// <typeparam name="TResponseType">The response type expected back.</typeparam>
+		/// <returns>An awaitable future result.</returns>
+		AsyncRequestFutures<TResponseType> SendRequest<TResponseType>(RequestEnvelope envolope, Action<IEnumerable<TResponseType>> onResponse = null)
 			where TResponseType : class, IResponseMessage, IMessage, new();
 	}
 }

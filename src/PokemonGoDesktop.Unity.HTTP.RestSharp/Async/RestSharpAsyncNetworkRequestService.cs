@@ -2,23 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Networking.Envelopes;
 using Google.Protobuf;
 using PokemonGoDesktop.API.Proto;
 using RestSharp;
 using System.Net;
+using Easyception;
 
 namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 {
 	/// <summary>
 	/// <see cref="RestSharp"/> implementation of the <see cref="IAsyncNetworkRequestService"/> for sending requests.
 	/// </summary>
-	public class RestSharpAsyncNetworkRequestService : IAsyncNetworkRequestService
+	public class RestSharpAsyncNetworkRequestService : IAsyncNetworkRequestService, IResponseEnvelopeMiddlewareRegistry
 	{
 		/// <summary>
 		/// Managed <see cref="RestSharp"/> REST client.
 		/// </summary>
 		private RestClient httpClient { get; }
+
+		//TODO: Implement middlewares
+		private Stack<IResponseEnvelopeMiddleware> responseEnvelopeMiddlewareStack { get; }
 
 		/// <summary>
 		/// Creates a new <see cref="RestSharpAsyncNetworkRequestService"/> with the default PokemonGo
@@ -38,29 +41,58 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			httpClient.AddDefaultHeader("Accept", "*/*");
 			httpClient.AddDefaultHeader("Content-Type",
 				"application/x-www-form-urlencoded");
+
+			//This is for an unused feature right now.
+			//It will eventually be implemented
+			responseEnvelopeMiddlewareStack = new Stack<IResponseEnvelopeMiddleware>();
 		}
 
-		//TODO: Add URL/URI functionality to request sending
+
+		public bool RegisterMiddleware(IResponseEnvelopeMiddleware middleware)
+		{
+			Throw<ArgumentNullException>.If.IsNull(nameof(middleware))?.Now(nameof(middleware), $"Cannot register a null {nameof(IResponseEnvelopeMiddleware)}");
+
+			responseEnvelopeMiddlewareStack.Push(middleware);
+
+			return true;
+		}
+
 		/// <summary>
 		/// Tries to send the <see cref="RequestEnvelope"/> message to the network.
 		/// Returns an <typeparamref name="TResponseType"/> when completed.
 		/// </summary>
-		/// <param name="envolope">Envolope to send.</param>
-		/// <param name="onResponse">Optional delegate to invoke on response recieved.</param>
-		/// <typeparam name="TResponseType">The response type expected back.</typeparam>
+		/// <param name="envelope">Envolope to send.</param>
 		/// <returns>An awaitable future result.</returns>
-		public AsyncRequestFuture<TResponseType> SendRequest<TResponseType>(RequestEnvelope envolope)
-			where TResponseType : class, IResponseMessage, IMessage, new()
+		public IFuture<TResponseType> SendRequestAsFuture<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture)
+			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
+			where TFutureType : AsyncRequestFuture<TResponseType>, IAsyncCallBackTarget
 		{
-			RestSharpAsyncRequestFuture<TResponseType> future = new RestSharpAsyncRequestFuture<TResponseType>();
-
 			//TODO: Add URL/URI
-			IRestRequest request = new RestRequest().AddParameter(new Parameter() { Value = envolope.ToByteArray() });
+			//TODO: Verify header stuff
+			IRestRequest request = new RestRequest().AddParameter(new Parameter() { Value = envelope.ToByteArray() });
+
+			var requestFuture = new RestSharpAsyncRequestFutureDeserializationDecorator<TFutureType, TResponseType>(responseMessageFuture);
 
 			//To send protobuf requests 
-			httpClient.PostAsync(request, future.OnResponse); //we have to provide the future as the callback
+			httpClient.PostAsync(request, (res, hand) =>
+			{
+				requestFuture.OnResponse(res);
+			}); //we have to provide the future as the callback
 
-			return future;
+			return requestFuture;
+		}
+
+		/// <summary>
+		/// Tries to send the <see cref="RequestEnvelope"/> message to the network.
+		/// Returns an <typeparamref name="TResponseType"/> when completed.
+		/// </summary>
+		/// <param name="envelope">Envolope to send.</param>
+		/// <returns>An awaitable future result.</returns>
+		public IFuture<IEnumerable<TResponseType>> SendRequestAsFutures<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture)
+			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
+			where TFutureType : AsyncRequestFutures<TResponseType>, IAsyncCallBackTarget
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

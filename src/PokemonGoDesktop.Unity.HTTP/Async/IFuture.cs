@@ -10,7 +10,7 @@ namespace PokemonGoDesktop.Unity.HTTP
 	/// value and type <paramref name="TFutureType"/>.
 	/// </summary>
 	/// <typeparam name="TFutureType">The resulting future type.</typeparam>
-	public interface IFuture<TFutureType>
+	public interface IFuture<out TFutureType>
 		where TFutureType : class
 	{
 		/// <summary>

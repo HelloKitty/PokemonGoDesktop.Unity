@@ -15,7 +15,7 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 	/// requests.
 	/// </summary>
 	/// <typeparam name="TResponseMessageType"></typeparam>
-	public sealed class RestSharpAsyncRequestFuture<TResponseMessageType> : AsyncRequestFuture<TResponseMessageType>, IRestSharpAsyncTarget
+	public class RestSharpAsyncRequestFuture<TResponseMessageType> : AsyncRequestFuture<TResponseMessageType>, IAsyncCallBackTarget
 		where TResponseMessageType : class, IResponseMessage, IMessage, new()
 	{
 		/// <summary>
@@ -37,53 +37,40 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		private readonly object syncObj = new object();
 
 		/// <summary>
-		/// Internally managed response from <see cref="RestSharp"/>.
-		/// </summary>
-		private IRestResponse internalAsyncRecievedResponse { get; set; } = null;
-
-		/// <summary>
 		/// Indicates if the <see cref="IRestResponse"/> is available.
 		/// </summary>
-		public override bool isCompleted
-		{
-			get
-			{
-				lock(syncObj)
-					return internalAsyncRecievedResponse != null;
-			}
-		}
+		public override bool isCompleted { get; protected set; }
 
 		/// <summary>
-		/// Called when <see cref="RestSharp"/> recieves a response async.
+		/// Called when <see cref="RestSharp"/> recieves a response envelope async.
 		/// </summary>
-		/// <param name="response">Response recieved.</param>
-		/// <param name="handle">Async handle.</param>
-		public void OnResponse(IRestResponse response, RestRequestAsyncHandle handle)
+		/// <param name="envelope">Response envelope recieved.</param>
+		public virtual void OnResponse(ResponseEnvelope envelope)
 		{
-			Throw<ArgumentNullException>.If.IsNull(response)?.Now(nameof(response), "Recieved a null response from RestSharp");
+			Throw<ArgumentNullException>.If.IsNull(envelope)?.Now(nameof(envelope), "Recieved a null response from RestSharp");
 
 			//When this is called we should lock because we're about to dramatically change state
 			lock (syncObj)
 			{
-				internalAsyncRecievedResponse = response;
-
 				//We should check the bytes returned in a response
 				//We expect a Payload.
-				if (response.RawBytes != null && response.RawBytes.Count() > 0)
+				if (envelope.Returns.Count > 0)
 				{
 					TResponseMessageType responseProtoMessage = compiledNewLambda();
 
 					//Take the bytes and push into the proto message
-					responseProtoMessage.MergeFrom(response.RawBytes);
+					responseProtoMessage.MergeFrom(envelope.Returns.First());
 
 					if(responseProtoMessage != null)
 					{
 						ResultState = ResponseState.Invalid;
+						isCompleted = true;
 					}
 					else
 					{
 						ResultState = ResponseState.Valid;
 						Result = responseProtoMessage;
+						isCompleted = true;
 					}
 				}
 			}
