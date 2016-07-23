@@ -110,6 +110,11 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			return client;
 		}
 
+		/// <summary>
+		/// Attempts to get the OAuth Ticket ID from the login attempt.
+		/// </summary>
+		/// <param name="client">Restclient to use.</param>
+		/// <returns>The OAuth ticket if available or null.</returns>
 		private string TryGetTicketId(RestClient client)
 		{
 			PTCLoginSessionCookie cookie = TryGetLoginSessionCookie(client);
@@ -176,6 +181,10 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			throw new InvalidOperationException("Failed to parse Location Header from login response.");
 		}
 
+		/// <summary>
+		/// Attempts to authenticate the user.
+		/// </summary>
+		/// <returns>Resulting authentication token from the attempt.</returns>
 		public IAuthToken TryAuthenticate()
 		{
 			string ticketId = TryGetTicketId(BuildLoginRestClient());
