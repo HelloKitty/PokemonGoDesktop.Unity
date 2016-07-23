@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGoDesktop.Unity.Comm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGoDesktop.Unity.IoC", "src\PokemonGoDesktop.Unity.IoC\PokemonGoDesktop.Unity.IoC.csproj", "{29ED6ECF-BB2A-4A14-8E33-E1BF5FF63976}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGoDesktop.Unity.Client", "src\PokemonGoDesktop.Unity.Client\PokemonGoDesktop.Unity.Client.csproj", "{3490CB88-B181-492C-9029-D71FB7A26C35}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{29ED6ECF-BB2A-4A14-8E33-E1BF5FF63976}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29ED6ECF-BB2A-4A14-8E33-E1BF5FF63976}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29ED6ECF-BB2A-4A14-8E33-E1BF5FF63976}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3490CB88-B181-492C-9029-D71FB7A26C35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3490CB88-B181-492C-9029-D71FB7A26C35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3490CB88-B181-492C-9029-D71FB7A26C35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3490CB88-B181-492C-9029-D71FB7A26C35}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,5 +59,6 @@ Global
 		{1B15AFA3-DA16-4C15-AB93-E2C1048E0943} = {59797FCF-FF7B-499E-AF0F-AACBD3514B30}
 		{CC0CFF4C-D811-45FD-9215-92626A43C4BF} = {DD592D6C-44E7-4348-A2C1-C5367DE42B78}
 		{29ED6ECF-BB2A-4A14-8E33-E1BF5FF63976} = {DD592D6C-44E7-4348-A2C1-C5367DE42B78}
+		{3490CB88-B181-492C-9029-D71FB7A26C35} = {DD592D6C-44E7-4348-A2C1-C5367DE42B78}
 	EndGlobalSection
 EndGlobal

@@ -36,28 +36,36 @@
       <HintPath>..\..\packages\Easyception.2.0.0\lib\net35\Easyception.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Fasterflect, Version=2.1.3.0, Culture=neutral, PublicKeyToken=38d18473284c1ca7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\fasterflect.2.1.3\lib\net35\Fasterflect.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Google.Protobuf, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.11\lib\net35\Google.Protobuf.dll</HintPath>
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.12\lib\net35\Google.Protobuf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Net35Essentials, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Net35Essentials.1.0.2\lib\net35\Net35Essentials.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokemonGoDesktop.API.Client.Services, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.11\lib\net35\PokemonGoDesktop.API.Client.Services.dll</HintPath>
+    <Reference Include="PokemonGoDesktop.API.Client.Services, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.12\lib\net35\PokemonGoDesktop.API.Client.Services.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokemonGoDesktop.API.Common, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Common.1.0.11\lib\net35\PokemonGoDesktop.API.Common.dll</HintPath>
+    <Reference Include="PokemonGoDesktop.API.Common, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Common.1.0.12\lib\net35\PokemonGoDesktop.API.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokemonGoDesktop.API.Proto, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.1.0.11\lib\net35\PokemonGoDesktop.API.Proto.dll</HintPath>
+    <Reference Include="PokemonGoDesktop.API.Proto, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.1.0.12\lib\net35\PokemonGoDesktop.API.Proto.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokemonGoDesktop.API.Proto.Services, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.Services.1.0.11\lib\net35\PokemonGoDesktop.API.Proto.Services.dll</HintPath>
+    <Reference Include="PokemonGoDesktop.API.Proto.Services, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.Services.1.0.12\lib\net35\PokemonGoDesktop.API.Proto.Services.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SceneJect.Common, Version=1.0.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SceneJect.Common.1.0.13\lib\net35\SceneJect.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -71,6 +79,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Login\AuthenticationUIObserverDispatcher .cs" />
+    <Compile Include="Login\IUserAuthServiceFactory.cs" />
+    <Compile Include="Login\LoginUrlDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\RequestBuilderService.cs" />
     <Compile Include="Serialization\ResponseEnvelopeParserService.cs" />
