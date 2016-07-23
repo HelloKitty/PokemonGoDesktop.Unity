@@ -57,6 +57,11 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			userPassword = password;
 		}
 
+		/// <summary>
+		/// Tries to get the login session cookie the PTC servers issue on gets.
+		/// </summary>
+		/// <param name="client">Cookie enabled client.</param>
+		/// <returns>A <see cref="PTCLoginSessionCookie"/> instance or throws on failure.</returns>
 		private PTCLoginSessionCookie TryGetLoginSessionCookie(RestClient client)
 		{
 			RestRequest request = new RestRequest();
@@ -87,6 +92,11 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			return cookie;
 		}
 
+		/// <summary>
+		/// Generates a cookie accepting <see cref="RestClient"/> that has base headers
+		/// and a Ninantic user-agent.
+		/// </summary>
+		/// <returns>A non-null <see cref="RestClient"/>.</returns>
 		private RestClient BuildLoginRestClient()
 		{
 			RestClient client = new RestClient(this.ptcLoginUrl);
@@ -139,6 +149,10 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			return ticketId;
 		}
 
+		/// <summary>
+		/// Handles cases when the location header in the login response is null.
+		/// </summary>
+		/// <param name="loginResponse">Login response with the null location header.</param>
 		private void HandleNullLocationHeader(IRestResponse loginResponse)
 		{
 			if (loginResponse.Content != null && loginResponse.Content.Length != 0)
@@ -154,9 +168,9 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 
 				}
 
-				//If there is no login header it's likely that there is an error message in the form of a JSON object, the cookie, sent back to us.
+				//If there is no location header it's likely that there is an error message in the form of a JSON object, the cookie, sent back to us.
 				if (errorCookie != null && !errorCookie.isValid)
-					throw new InvalidOperationException($"Recieved erros on login attempt {errorCookie.ErrorStrings.Aggregate("", (e1, e2) => $"{e1} {e2}")}");
+					throw new InvalidOperationException($"PTC login server returned errors: {errorCookie.ErrorStrings.Aggregate("", (e1, e2) => $"{e1} {e2}")}");
 			}
 
 			throw new InvalidOperationException("Failed to parse Location Header from login response.");
