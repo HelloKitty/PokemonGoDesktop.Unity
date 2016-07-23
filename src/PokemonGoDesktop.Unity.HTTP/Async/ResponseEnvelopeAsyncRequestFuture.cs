@@ -1,21 +1,20 @@
 ﻿using Easyception;
 using Google.Protobuf;
 using PokemonGoDesktop.API.Proto;
-using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace PokemonGoDesktop.Unity.HTTP.RestSharp
+namespace PokemonGoDesktop.Unity.HTTP
 {
 	/// <summary>
-	/// <see cref="RestSharp"/> implementation of <see cref="AsyncRequestFuture{TResponseMessageType}"/> to be used for async
+	/// ResponseEnvelope-based implementation of <see cref="AsyncRequestFuture{TResponseMessageType}"/> to be used for async
 	/// requests.
 	/// </summary>
-	/// <typeparam name="TResponseMessageType"></typeparam>
-	public class RestSharpAsyncRequestFuture<TResponseMessageType> : AsyncRequestFuture<TResponseMessageType>, IAsyncCallBackTarget
+	/// <typeparam name="TResponseMessageType">Expected <see cref="IResponseMessage"/> type.</typeparam>
+	public class ResponseEnvelopeAsyncRequestFuture<TResponseMessageType> : AsyncRequestFuture<TResponseMessageType>, IAsyncCallBackTarget
 		where TResponseMessageType : class, IResponseMessage, IMessage, new()
 	{
 		/// <summary>
@@ -23,7 +22,7 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		/// </summary>
 		private static Func<TResponseMessageType> compiledNewLambda { get; }
 
-		static RestSharpAsyncRequestFuture()
+		static ResponseEnvelopeAsyncRequestFuture()
 		{
 			//new() in .Net 3.5 is VERY VERY slow with generic types
 			//This is because Activator is very slow; we use compiled Lambda instead.
@@ -47,7 +46,7 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		/// <param name="envelope">Response envelope recieved.</param>
 		public virtual void OnResponse(ResponseEnvelope envelope)
 		{
-			Throw<ArgumentNullException>.If.IsNull(envelope)?.Now(nameof(envelope), "Recieved a null response from RestSharp");
+			Throw<ArgumentNullException>.If.IsNull(envelope)?.Now(nameof(envelope), $"Recieved a null {nameof(ResponseEnvelope)}");
 
 			//When this is called we should lock because we're about to dramatically change state
 			lock (syncObj)

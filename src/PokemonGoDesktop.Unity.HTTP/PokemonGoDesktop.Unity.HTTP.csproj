@@ -63,6 +63,7 @@
     <Compile Include="Async\IAsyncUserNetworkRequestService.cs" />
     <Compile Include="Async\IFuture.cs" />
     <Compile Include="Async\IAsyncCallBackTarget.cs" />
+    <Compile Include="Async\ResponseEnvelopeAsyncRequestFuture.cs" />
     <Compile Include="Async\ResponseState.cs" />
     <Compile Include="Login\IPTCLoginSessionCookie.cs" />
     <Compile Include="Login\PTCLoginRequestCookieDecorator.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IResponseEnvelopeMiddleware.cs" />
     <Compile Include="Services\IResponseEnvelopeMiddlewareRegistry.cs" />
+    <Compile Include="Services\NetworkCoroutineService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
