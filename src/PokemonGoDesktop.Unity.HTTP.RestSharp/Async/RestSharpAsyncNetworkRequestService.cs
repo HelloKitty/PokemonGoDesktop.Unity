@@ -49,7 +49,7 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		/// <param name="onResponse">Optional delegate to invoke on response recieved.</param>
 		/// <typeparam name="TResponseType">The response type expected back.</typeparam>
 		/// <returns>An awaitable future result.</returns>
-		public AsyncRequestFuture<TResponseType> SendRequest<TResponseType>(RequestEnvelope envolope, Action<TResponseType> onResponse = null)
+		public AsyncRequestFuture<TResponseType> SendRequest<TResponseType>(RequestEnvelope envolope)
 			where TResponseType : class, IResponseMessage, IMessage, new()
 		{
 			RestSharpAsyncRequestFuture<TResponseType> future = new RestSharpAsyncRequestFuture<TResponseType>();
