@@ -71,8 +71,8 @@
       <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.Services.1.0.12\lib\net35\PokemonGoDesktop.API.Proto.Services.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RestSharp.105.2.3\lib\net35\RestSharp.dll</HintPath>
+    <Reference Include="RestSharp, Version=104.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RestSharp-Unity-NET-2.0.105.1\lib\net20\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SceneJect.Autofac, Version=1.0.14.0, Culture=neutral, processorArchitecture=MSIL">
@@ -122,6 +122,10 @@
     <Folder Include="Session\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /Q /Y /R "$(TargetDir)*.dll" "$(SolutionDir)Build"
+xcopy /Q /Y /R "$(TargetDir)*.pdb" "$(SolutionDir)Build"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

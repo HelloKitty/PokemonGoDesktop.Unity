@@ -4,12 +4,13 @@ using Newtonsoft.Json.Linq;
 using PokemonGoDesktop.API.Client.Services;
 using PokemonGoDesktop.API.Common;
 using RestSharp;
-using RestSharp.Extensions.MonoHttp;
+using RestSharp.Contrib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using UnityEngine;
 
 namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 {
@@ -209,7 +210,7 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded"); //incude encoded url
 
 			//client_id={client_id}&redirect_uri={redirect_uri}&client_secret={client_secret}&grant_type={grant_type}&code={code}
-			request.AddParameter(new Parameter() { Type = ParameterType.QueryString,
+			request.AddParameter(new Parameter() { Type = ParameterType.RequestBody,
 				Value = $"client_id={"mobile-app_pokemon-go"}&redirect_uri={@"https://www.nianticlabs.com/pokemongo/error"}&client_secret={"w8ScCUXJQc6kXKw8FiOhd8Fixzht18Dq3PEVkUCP5ZPxtgyWsbTvWHFLm2wNY0JR"}&grant_type={"refresh_token"}&code={ticketId}" });
 
 			IRestResponse oAuthTokenResponse = client.Post(request);	

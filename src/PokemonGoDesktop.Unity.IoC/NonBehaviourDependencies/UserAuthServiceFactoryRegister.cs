@@ -30,6 +30,9 @@ namespace PokemonGoDesktop.Unity.IoC
 
 		public override void Register(IServiceRegister register)
 		{
+#if DEBUG || DEBUGBUILD
+			Debug.Log(ptcLoginUrlDetails.ToString());
+#endif
 			//create the details map
 			Dictionary<AuthType, LoginUrlDetails> authDetailsMap = new Dictionary<AuthType, LoginUrlDetails>()
 			{
