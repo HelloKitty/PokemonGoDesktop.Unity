@@ -32,6 +32,10 @@
     <DocumentationFile>bin\Release\PokemonGoDesktop.Unity.HTTP.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=2.5.2.830, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SceneJect.Autofac.1.0.14\lib\net35\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Easyception, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Easyception.2.0.0\lib\net35\Easyception.dll</HintPath>
       <Private>True</Private>
@@ -44,16 +48,24 @@
       <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.1.0.12\lib\net35\Google.Protobuf.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Net35Essentials, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Net35Essentials.1.0.2\lib\net35\Net35Essentials.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PokemonGoDesktop.API.Proto, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.1.0.12\lib\net35\PokemonGoDesktop.API.Proto.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SceneJect.Common, Version=1.0.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SceneJect.Common.1.0.13\lib\net35\SceneJect.Common.dll</HintPath>
+    <Reference Include="SceneJect.Autofac, Version=1.0.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SceneJect.Autofac.1.0.14\lib\net35\SceneJect.Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SceneJect.Editor, Version=1.0.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SceneJect.Editor.1.0.13\lib\net35\SceneJect.Editor.dll</HintPath>
+    <Reference Include="SceneJect.Common, Version=1.0.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SceneJect.Common.1.0.14\lib\net35\SceneJect.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SceneJect.Editor, Version=1.0.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SceneJect.Editor.1.0.14\lib\net35\SceneJect.Editor.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

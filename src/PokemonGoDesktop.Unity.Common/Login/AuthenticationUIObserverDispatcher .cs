@@ -1,4 +1,5 @@
-﻿using PokemonGoDesktop.API.Client.Services;
+﻿using Easyception;
+using PokemonGoDesktop.API.Client.Services;
 using PokemonGoDesktop.API.Common;
 using SceneJect.Common;
 using System;
@@ -40,7 +41,12 @@ namespace PokemonGoDesktop.Unity.Common
 		private AuthTokenEvent OnInvalidAuthToken;
 
 		[Inject]
-		private IUserAuthServiceFactory authServiceFactory;
+		private IUserAuthServiceFactory authServiceFactory { get; set; }
+
+		private void Awake()
+		{
+			Throw<ArgumentNullException>.If.IsNull(authServiceFactory)?.Now(nameof(authServiceFactory), $"{nameof(IUserAuthServiceFactory)} cannot be null.");
+		}
 
 		//These setters are here for hooking to UnityEvents
 		/// <summary>
@@ -65,7 +71,12 @@ namespace PokemonGoDesktop.Unity.Common
 
 		public void TryAuthenticate()
 		{
+			Throw<ArgumentNullException>.If.IsNull(LoginString)?.Now(nameof(LoginString), $"{nameof(LoginString)} cannot be null.");
+			Throw<ArgumentNullException>.If.IsNull(Password)?.Now(nameof(Password), $"{nameof(Password)} cannot be null.");
+
 			IUserAuthenticationService service = authServiceFactory.Create(AuthenticationType, new AuthenticationDetails(LoginString, Password));
+
+			Throw<ArgumentNullException>.If.IsNull(service)?.Now(nameof(service), $"{authServiceFactory} produced a null auth service.");
 
 			IAuthToken token = service.TryAuthenticate();
 

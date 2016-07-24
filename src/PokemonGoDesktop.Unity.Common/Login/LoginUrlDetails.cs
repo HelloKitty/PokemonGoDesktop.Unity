@@ -15,6 +15,6 @@ namespace PokemonGoDesktop.Unity.Common
 
 		[SerializeField]
 		private string _OAuthUrl;
-		public string OAuthUrl { get { return OAuthUrl; } }
+		public string OAuthUrl { get { return _OAuthUrl; } }
 	}
 }
