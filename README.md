@@ -8,7 +8,11 @@ PokemonGoDesktop.Unity is an Implementation of the PokemonGoDesktop.API for Unit
 
 ## Project Overview
 
-[TBA]
+[Unity HTTP](https://github.com/HelloKitty/PokemonGoDesktop.Unity/tree/master/src/PokemonGoDesktop.Unity.HTTP): Contains barebones POCOs, services and async interfaces and contracts for dealing with Pokemon Go over HTTP. Defines the majority of the async contracts in the library and is agnostic to any particular HTTP implementation.
+
+[Unity HTTP RestSharp](https://github.com/HelloKitty/PokemonGoDesktop.Unity/tree/master/src/PokemonGoDesktop.Unity.HTTP.RestSharp): Contains a RestSharp (custom Unity3D fork) implementation for the HTTP contracts and async mentioned earlier.
+
+[Unity IoC](https://github.com/HelloKitty/PokemonGoDesktop.Unity/tree/master/src/PokemonGoDesktop.Unity.IoC): Contains Inversion of Control container registration modules for Sceneject. A basic barebones API for rigging up depedency injection in the Unity3D editor with the concept of a depdency being scene-wide.
 
 ## Attributions
 
@@ -20,10 +24,13 @@ Auth and Bot Logic: https://github.com/FeroxRev/Pokemon-Go-Rocket-API
 
 To use this project you'll first need a couple of things:
   - Visual Studio 2015
+  - Unity3D 5.3.4f1
 
 ## Builds
 
-Available on a Nuget Feed: https://www.myget.org/F/hellokitty/api/v2 [![hellokitty MyGet Build Status](https://www.myget.org/BuildSource/Badge/hellokitty?identifier=a8048ae0-adcd-4997-8862-c3f5fc6adf34)](https://www.myget.org/feed/Packages/hellokitty)
+Soon to be on Nuget!
+
+PokemonGoDesktop.API is already on Nuget though; check the project [README](https://github.com/HelloKitty/PokemonGoDesktop)
 
 ##Tests
 
