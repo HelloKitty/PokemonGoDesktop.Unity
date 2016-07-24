@@ -34,6 +34,9 @@ namespace PokemonGoDesktop.Unity.Common
 		/// <exception cref="InvalidOperationException">If the token is in an invalid state.</exception>
 		public void SetAuthenticationToken(IAuthToken token)
 		{
+#if DEBUG || DEBUGBUILD
+			Debug.Log($"Successfully authenticated and recieved token with ID: {token.TokenID}");
+#endif
 			Throw<ArgumentNullException>.If.IsNull(token)?.Now(nameof(token), $"Recieved a null {nameof(IAuthToken)} during auth token set.");
 
 			if (!token.isValid)
