@@ -71,9 +71,8 @@
       <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.Services.1.0.12\lib\net35\PokemonGoDesktop.API.Proto.Services.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RestSharp, Version=104.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RestSharp-Unity-NET-2.0.105.1\lib\net20\RestSharp.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="RestSharp">
+      <HintPath>..\..\lib\RestSharp.Unity\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="SceneJect.Autofac, Version=1.0.14.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SceneJect.Autofac.1.0.14\lib\net35\SceneJect.Autofac.dll</HintPath>

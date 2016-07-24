@@ -72,11 +72,12 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			//TODO: Add URL/URI
 			//TODO: Verify header stuff
 			IRestRequest request = new RestRequest().AddParameter(new Parameter() { Value = envelope.ToByteArray() });
+			request.Method = Method.POST;
 
 			var requestFuture = new RestSharpAsyncRequestFutureDeserializationDecorator<TFutureType, TResponseType>(responseMessageFuture);
 
 			//To send protobuf requests 
-			httpClient.PostAsync(request, (res, hand) =>
+			httpClient.ExecuteAsync(request, (res, hand) =>
 			{
 				requestFuture.OnResponse(res);
 			}); //we have to provide the future as the callback
@@ -97,11 +98,12 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			//TODO: Add URL/URI
 			//TODO: Verify header stuff
 			IRestRequest request = new RestRequest().AddParameter(new Parameter() { Value = envelope.ToByteArray() });
+			request.Method = Method.POST;
 
 			var requestFuture = new RestSharpAsyncRequestFuturesDeserializationDecorator<TFutureType, TResponseType>(responseMessageFuture);
 
 			//To send protobuf requests 
-			httpClient.PostAsync(request, (res, hand) =>
+			httpClient.ExecuteAsync(request, (res, hand) =>
 			{
 				requestFuture.OnResponse(res);
 			}); //we have to provide the future as the callback

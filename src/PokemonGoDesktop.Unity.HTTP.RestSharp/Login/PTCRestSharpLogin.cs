@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 using PokemonGoDesktop.API.Client.Services;
 using PokemonGoDesktop.API.Common;
 using RestSharp;
-using RestSharp.Contrib;
+using RestSharp.Extensions.MonoHttp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
