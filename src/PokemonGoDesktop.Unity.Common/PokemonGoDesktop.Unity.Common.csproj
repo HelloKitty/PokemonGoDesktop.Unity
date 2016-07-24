@@ -102,6 +102,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PokemonGoDesktop.Unity.Exceptions\PokemonGoDesktop.Unity.Exceptions.csproj">
+      <Project>{8cd98b0b-23f6-4686-8743-a2faa784d270}</Project>
+      <Name>PokemonGoDesktop.Unity.Exceptions</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /Q /Y /R "$(TargetDir)*.dll" "$(SolutionDir)Build"

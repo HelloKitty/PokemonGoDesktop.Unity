@@ -35,7 +35,7 @@ namespace PokemonGoDesktop.Unity.Common
 		public void SetAuthenticationToken(IAuthToken token)
 		{
 #if DEBUG || DEBUGBUILD
-			Debug.Log($"Successfully authenticated and recieved token with ID: {token.TokenID}");
+			Debug.Log($"Successfully authenticated and recieved valid oAuth.");
 #endif
 			Throw<ArgumentNullException>.If.IsNull(token)?.Now(nameof(token), $"Recieved a null {nameof(IAuthToken)} during auth token set.");
 

@@ -109,6 +109,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PokemonGoDesktop.Unity.Exceptions\PokemonGoDesktop.Unity.Exceptions.csproj">
+      <Project>{8cd98b0b-23f6-4686-8743-a2faa784d270}</Project>
+      <Name>PokemonGoDesktop.Unity.Exceptions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PokemonGoDesktop.Unity.HTTP\PokemonGoDesktop.Unity.HTTP.csproj">
       <Project>{b7229d09-996d-4dde-a60c-99e76cc817f7}</Project>
       <Name>PokemonGoDesktop.Unity.HTTP</Name>

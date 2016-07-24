@@ -34,11 +34,17 @@ namespace PokemonGoDesktop.Unity.Common
 		[Serializable]
 		public class AuthTokenEvent : UnityEvent<IAuthToken> { }
 
+		[Serializable]
+		public class AuthServerError : UnityEvent<string> { }
+
 		[SerializeField]
 		private AuthTokenEvent OnValidAuthToken;
 
 		[SerializeField]
 		private AuthTokenEvent OnInvalidAuthToken;
+
+		[SerializeField]
+		private AuthServerError OnAuthServerError;
 
 		[Inject]
 		private IUserAuthServiceFactory authServiceFactory { get; set; }
@@ -78,12 +84,19 @@ namespace PokemonGoDesktop.Unity.Common
 
 			Throw<ArgumentNullException>.If.IsNull(service)?.Now(nameof(service), $"{authServiceFactory} produced a null auth service.");
 
-			IAuthToken token = service.TryAuthenticate();
+			try
+			{
+				IAuthToken token = service.TryAuthenticate();
 
-			if (token == null || !token.isValid)
-				OnInvalidAuthToken?.Invoke(token);
+				if (token == null || !token.isValid)
+					OnInvalidAuthToken?.Invoke(token);
 
-			OnValidAuthToken?.Invoke(token);
+				OnValidAuthToken?.Invoke(token);
+			}
+			catch(ServerLoginException e)
+			{
+				OnAuthServerError?.Invoke(e.Message);
+			}
 		}
 	}
 }

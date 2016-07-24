@@ -102,7 +102,8 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			RestClient client = new RestClient(this.ptcLoginUrl);
 			client.ClearHandlers();
 			client.CookieContainer = new CookieContainer(); //https://github.com/restsharp/RestSharp/wiki/Cookies
-			client.UserAgent = "Niantic App";
+			client.UserAgent = "Ninantic App";
+			//client.AddDefaultHeader("Accept-Encoding", "gzip");
 
 			//Let's hope RestClient can decompress gzip
 			client.FollowRedirects = false; //Rocket-API disables redirection
@@ -175,10 +176,10 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 
 				//If there is no location header it's likely that there is an error message in the form of a JSON object, the cookie, sent back to us.
 				if (errorCookie != null && !errorCookie.isValid)
-					throw new InvalidOperationException($"PTC login server returned errors: {errorCookie.ErrorStrings.Aggregate("", (e1, e2) => $"{e1} {e2}")}");
+					throw new ServerLoginException($"PTC Error: {errorCookie.ErrorStrings.Aggregate("", (e1, e2) => $"{e1} {e2}")}.");
 			}
 
-			throw new InvalidOperationException("Failed to parse Location Header from login response.");
+			throw new InvalidOperationException("Error: Failed to parse Location Header from login response.");
 		}
 
 		/// <summary>
@@ -187,30 +188,19 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		/// <returns>Resulting authentication token from the attempt.</returns>
 		public IAuthToken TryAuthenticate()
 		{
-			string ticketId = TryGetTicketId(BuildLoginRestClient());
+			RestClient client = BuildLoginRestClient();
+			string ticketId = TryGetTicketId(client);
 
-			RestClient client = new RestClient(loginRequestOAuthTokenUrl);
+			//RestClient client = new RestClient(loginRequestOAuthTokenUrl);
 
-			//Let's hope RestClient can decompress gzip
-			client.FollowRedirects = false; //Rocket-API disables redirection
+			client.BaseUrl = new Uri(loginRequestOAuthTokenUrl);
 
 			//We should do a blocking call for now until we can setup async for login
 
-			List<Parameter> paramList = new List<Parameter>()
-			{
-				{new Parameter() { Name = "client_id", Type = ParameterType.UrlSegment, Value = "mobile-app_pokemon-go" } },
-				{new Parameter() { Name = "redirect_uri", Type = ParameterType.UrlSegment, Value = @"https://www.nianticlabs.com/pokemongo/error" } },
-				{new Parameter() { Name = "client_secret", Type = ParameterType.UrlSegment, Value = "w8ScCUXJQc6kXKw8FiOhd8Fixzht18Dq3PEVkUCP5ZPxtgyWsbTvWHFLm2wNY0JR" } },
-				{new Parameter() { Name = "grant_type", Type = ParameterType.UrlSegment, Value =  "refresh_token" } },
-				{new Parameter() { Name = "code", Type = ParameterType.UrlSegment, Value =  ticketId } }
-			};
-
 			RestRequest request = new RestRequest();
-			request.AddHeader("Content-Type", "application/x-www-form-urlencoded"); //incude encoded url
 
 			//client_id={client_id}&redirect_uri={redirect_uri}&client_secret={client_secret}&grant_type={grant_type}&code={code}
-			request.AddParameter(new Parameter() { Type = ParameterType.QueryString,
-				Value = $"client_id={"mobile-app_pokemon-go"}&redirect_uri={@"https://www.nianticlabs.com/pokemongo/error"}&client_secret={"w8ScCUXJQc6kXKw8FiOhd8Fixzht18Dq3PEVkUCP5ZPxtgyWsbTvWHFLm2wNY0JR"}&grant_type={"refresh_token"}&code={ticketId}" });
+			request.AddParameter("application/x-www-form-urlencoded", $"client_id={"mobile-app_pokemon-go"}&redirect_uri={@"https://www.nianticlabs.com/pokemongo/error"}&client_secret={"w8ScCUXJQc6kXKw8FiOhd8Fixzht18Dq3PEVkUCP5ZPxtgyWsbTvWHFLm2wNY0JR"}&grant_type={"refresh_token"}&code={ticketId}", ParameterType.RequestBody);
 
 			IRestResponse oAuthTokenResponse = client.Post(request);	
 
@@ -218,14 +208,22 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 
 			try
 			{
-				string tokenData = oAuthTokenResponse.Content.ToString();
-				accessToken = HttpUtility.ParseQueryString(new Uri(tokenData).Query)["access_token"];
+				string tokenData = oAuthTokenResponse.Content;
+				accessToken = HttpUtility.ParseQueryString(tokenData)["access_token"];
 			}
 			catch(Exception e)
 			{
+#if DEBUG || DEBUGBUILD
+				throw new InvalidOperationException($"Error: {e.Message} Failed to generate access token from oAuth server.");
+#else
 				//Something went wrong. Return an invalid token
 				return new AuthToken(authenticationType, false, null);
+#endif
 			}
+
+			if (accessToken == null)
+				throw new InvalidOperationException("Error: oAuth access token is invalid.");
+
 			return new AuthToken(authenticationType, true, accessToken);
 		}
 	}
