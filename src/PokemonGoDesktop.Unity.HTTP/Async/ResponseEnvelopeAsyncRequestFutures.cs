@@ -1,21 +1,20 @@
 ﻿using Easyception;
 using Google.Protobuf;
 using PokemonGoDesktop.API.Proto;
-using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace PokemonGoDesktop.Unity.HTTP.RestSharp
+namespace PokemonGoDesktop.Unity.HTTP
 {
 	/// <summary>
-	/// <see cref="RestSharp"/> implementation of <see cref="AsyncRequestFuture{TResponseMessageType}"/> to be used for async
+	/// ResponseEnvelope-based implementation of <see cref="AsyncRequestFutures{TResponseMessageType}"/> to be used for async
 	/// requests.
 	/// </summary>
-	/// <typeparam name="TResponseMessageType"></typeparam>
-	public class RestSharpAsyncRequestFuture<TResponseMessageType> : AsyncRequestFuture<TResponseMessageType>, IAsyncCallBackTarget
+	/// <typeparam name="TResponseMessageType">Expected <see cref="IResponseMessage"/> type.</typeparam>
+	public class ResponseEnvelopeAsyncRequestFutures<TResponseMessageType> : AsyncRequestFutures<TResponseMessageType>, IAsyncCallBackTarget
 		where TResponseMessageType : class, IResponseMessage, IMessage, new()
 	{
 		/// <summary>
@@ -23,7 +22,7 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		/// </summary>
 		private static Func<TResponseMessageType> compiledNewLambda { get; }
 
-		static RestSharpAsyncRequestFuture()
+		static ResponseEnvelopeAsyncRequestFutures()
 		{
 			//new() in .Net 3.5 is VERY VERY slow with generic types
 			//This is because Activator is very slow; we use compiled Lambda instead.
@@ -47,29 +46,38 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		/// <param name="envelope">Response envelope recieved.</param>
 		public virtual void OnResponse(ResponseEnvelope envelope)
 		{
-			Throw<ArgumentNullException>.If.IsNull(envelope)?.Now(nameof(envelope), "Recieved a null response from RestSharp");
+			Throw<ArgumentNullException>.If.IsNull(envelope)?.Now(nameof(envelope), $"Recieved a null {nameof(ResponseEnvelope)}");
 
 			//When this is called we should lock because we're about to dramatically change state
 			lock (syncObj)
 			{
 				//We should check the bytes returned in a response
-				//We expect a Payload.
+				//We expect a payload or more
 				if (envelope.Returns.Count > 0)
 				{
-					TResponseMessageType responseProtoMessage = compiledNewLambda();
+					//Create a collection of the responses
+					List<TResponseMessageType> responseMessageInstances = new List<TResponseMessageType>(envelope.Returns.Count);
 
-					//Take the bytes and push into the proto message
-					responseProtoMessage.MergeFrom(envelope.Returns.First());
-
-					if(responseProtoMessage != null)
+					foreach(var r in envelope.Returns)
 					{
-						ResultState = ResponseState.Invalid;
+						TResponseMessageType responseProtoMessage = compiledNewLambda();
+
+						//Take the bytes and push into the response
+						responseProtoMessage.MergeFrom(r);
+
+						responseMessageInstances.Add(responseProtoMessage);
+					}
+
+					//Differing from the logic in other single future
+					if(responseMessageInstances.Count != 0)
+					{
+						ResultState = FutureState.Invalid;
 						isCompleted = true;
 					}
 					else
 					{
-						ResultState = ResponseState.Valid;
-						Result = responseProtoMessage;
+						ResultState = FutureState.Valid;
+						Result = responseMessageInstances;
 						isCompleted = true;
 					}
 				}

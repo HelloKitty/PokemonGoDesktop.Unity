@@ -23,5 +23,10 @@ namespace PokemonGoDesktop.Unity.HTTP
 		/// Usually null if unavailable.
 		/// </summary>
 		TFutureType Result { get; }
+
+		/// <summary>
+		/// Indicates the state of the <see cref="Result"/>.
+		/// </summary>
+		FutureState ResultState { get; }
 	}
 }

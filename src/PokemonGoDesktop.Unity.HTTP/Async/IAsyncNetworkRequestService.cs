@@ -21,7 +21,7 @@ namespace PokemonGoDesktop.Unity.HTTP
 		/// <returns>An awaitable future result.</returns>
 		IFuture<TResponseType> SendRequestAsFuture<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture)
 			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
-			where TFutureType : AsyncRequestFuture<TResponseType>, IAsyncCallBackTarget;
+			where TFutureType : IFuture<TResponseType>, IAsyncCallBackTarget;
 
 		/// <summary>
 		/// Tries to send the <see cref="RequestEnvelope"/> message to the network.
@@ -31,6 +31,6 @@ namespace PokemonGoDesktop.Unity.HTTP
 		/// <returns>An awaitable future result.</returns>
 		IFuture<IEnumerable<TResponseType>> SendRequestAsFutures<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture)
 			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
-			where TFutureType : AsyncRequestFutures<TResponseType>, IAsyncCallBackTarget;
+			where TFutureType : IFuture<IEnumerable<TResponseType>>, IAsyncCallBackTarget;
 	}
 }

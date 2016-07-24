@@ -30,6 +30,8 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		public RestSharpAsyncNetworkRequestService()
 		{
 			//headers based on: https://github.com/FeroxRev/Pokemon-Go-Rocket-API/blob/master/PokemonGo.RocketAPI/Client.cs
+			httpClient = new RestClient();
+
 
 			httpClient.AddDefaultHeader("User-Agent", "Niantic App");
 			//"Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-G900F Build/LMY48G)");
@@ -65,16 +67,17 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		/// <returns>An awaitable future result.</returns>
 		public IFuture<TResponseType> SendRequestAsFuture<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture)
 			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
-			where TFutureType : AsyncRequestFuture<TResponseType>, IAsyncCallBackTarget
+			where TFutureType : IFuture<TResponseType>, IAsyncCallBackTarget
 		{
 			//TODO: Add URL/URI
 			//TODO: Verify header stuff
 			IRestRequest request = new RestRequest().AddParameter(new Parameter() { Value = envelope.ToByteArray() });
+			request.Method = Method.POST;
 
 			var requestFuture = new RestSharpAsyncRequestFutureDeserializationDecorator<TFutureType, TResponseType>(responseMessageFuture);
 
 			//To send protobuf requests 
-			httpClient.PostAsync(request, (res, hand) =>
+			httpClient.ExecuteAsync(request, (res, hand) =>
 			{
 				requestFuture.OnResponse(res);
 			}); //we have to provide the future as the callback
@@ -90,9 +93,22 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		/// <returns>An awaitable future result.</returns>
 		public IFuture<IEnumerable<TResponseType>> SendRequestAsFutures<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture)
 			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
-			where TFutureType : AsyncRequestFutures<TResponseType>, IAsyncCallBackTarget
+			where TFutureType : IFuture<IEnumerable<TResponseType>>, IAsyncCallBackTarget
 		{
-			throw new NotImplementedException();
+			//TODO: Add URL/URI
+			//TODO: Verify header stuff
+			IRestRequest request = new RestRequest().AddParameter(new Parameter() { Value = envelope.ToByteArray() });
+			request.Method = Method.POST;
+
+			var requestFuture = new RestSharpAsyncRequestFuturesDeserializationDecorator<TFutureType, TResponseType>(responseMessageFuture);
+
+			//To send protobuf requests 
+			httpClient.ExecuteAsync(request, (res, hand) =>
+			{
+				requestFuture.OnResponse(res);
+			}); //we have to provide the future as the callback
+
+			return requestFuture;
 		}
 	}
 }

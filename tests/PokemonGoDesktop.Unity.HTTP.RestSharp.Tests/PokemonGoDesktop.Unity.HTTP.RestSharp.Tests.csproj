@@ -35,32 +35,32 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Google.Protobuf, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.11\lib\net35\Google.Protobuf.dll</HintPath>
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.12\lib\net35\Google.Protobuf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=3.0.5813.39033, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NUnit.3.0.1\lib\net20\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokemonGoDesktop.API.Client.Services, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.11\lib\net35\PokemonGoDesktop.API.Client.Services.dll</HintPath>
+    <Reference Include="PokemonGoDesktop.API.Client.Services, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.12\lib\net35\PokemonGoDesktop.API.Client.Services.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokemonGoDesktop.API.Common, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Common.1.0.11\lib\net35\PokemonGoDesktop.API.Common.dll</HintPath>
+    <Reference Include="PokemonGoDesktop.API.Common, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Common.1.0.12\lib\net35\PokemonGoDesktop.API.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokemonGoDesktop.API.Proto, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.1.0.11\lib\net35\PokemonGoDesktop.API.Proto.dll</HintPath>
+    <Reference Include="PokemonGoDesktop.API.Proto, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.1.0.12\lib\net35\PokemonGoDesktop.API.Proto.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokemonGoDesktop.API.Proto.Services, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.Services.1.0.11\lib\net35\PokemonGoDesktop.API.Proto.Services.dll</HintPath>
+    <Reference Include="PokemonGoDesktop.API.Proto.Services, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.Services.1.0.12\lib\net35\PokemonGoDesktop.API.Proto.Services.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RestSharp.105.2.3\lib\net35\RestSharp.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\RestSharp.Unity\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

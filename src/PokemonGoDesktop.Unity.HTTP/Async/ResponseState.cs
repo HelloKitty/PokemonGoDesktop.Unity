@@ -6,22 +6,22 @@ using System.Text;
 namespace PokemonGoDesktop.Unity.HTTP
 {
 	/// <summary>
-	/// Indicates the state of the response.
+	/// Indicates the state of the future.
 	/// </summary>
-	public enum ResponseState
+	public enum FutureState
 	{
 		/// <summary>
-		/// Indicates an uncompleted async request.
+		/// Indicates an uncompleted async future.
 		/// </summary>
 		Uncompleted,
 
 		/// <summary>
-		/// Indicates an invalid response.
+		/// Indicates an invalid future.
 		/// </summary>
 		Invalid,
 
 		/// <summary>
-		/// Indicates a valid response.
+		/// Indicates a valid future.
 		/// </summary>
 		Valid
 	}
