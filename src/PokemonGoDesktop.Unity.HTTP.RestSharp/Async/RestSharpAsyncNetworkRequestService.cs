@@ -7,6 +7,7 @@ using PokemonGoDesktop.API.Proto;
 using RestSharp;
 using System.Net;
 using Easyception;
+using PokemonGoDesktop.Unity.HTTP.RestSharp;
 
 namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 {
@@ -107,6 +108,30 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			{
 				requestFuture.OnResponse(res);
 			}); //we have to provide the future as the callback
+
+			return requestFuture;
+		}
+
+		/// <summary>
+		/// Tries to send the <see cref="RequestEnvelope"/> message to the network.
+		/// Returns an <see cref="IFuture{ResponseEnvelope}"/> when completed.
+		/// </summary>
+		/// <param name="envelope">Envolope to send.</param>
+		/// <returns>An awaitable future result.</returns>
+		public IFuture<ResponseEnvelope> SendRequestAsResponseFuture<TFutureType>(RequestEnvelope envelope, TFutureType responseEnvelopeFuture)
+			where TFutureType : IFuture<ResponseEnvelope>, IAsyncCallBackTarget
+		{
+			//TODO: Add URL/URI
+			//TODO: Verify header stuff
+			IRestRequest request = new RestRequest().AddParameter(new Parameter() { Value = envelope.ToByteArray() });
+			request.Method = Method.POST;
+
+			var requestFuture = new RestSharpAsyncRequestFutureDeserializationDecorator<TFutureType>(responseEnvelopeFuture);
+
+			httpClient.ExecuteAsync(request, (res, hand) =>
+			{
+				requestFuture.OnResponse(res);
+			});
 
 			return requestFuture;
 		}

@@ -13,6 +13,8 @@ using System.Text;
 
 namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 {
+	//TODO: Refactor class
+	//TODO: Make login async
 	/// <summary>
 	/// Pokemon Trainer Club login implementation of the <see cref="IUserAuthenticationService"/>.
 	/// </summary>

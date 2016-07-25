@@ -95,6 +95,35 @@ namespace PokemonGoDesktop.Unity.HTTP
 			return responseFuture;
 		}
 
+		public IFuture<ResponseEnvelope> SendRequest(RequestEnvelope envelope, Action<ResponseEnvelope> onResponse = null)
+		{
+			//the delegate can be null. that is fine.
+			Throw<ArgumentNullException>.If.IsNull(envelope)?.Now(nameof(envelope), $"Cannot send a null {nameof(RequestEnvelope)} with {nameof(NetworkCoroutineService)}");
+
+			ResponseEnvelopeAsyncRequestFuture responseFuture = new ResponseEnvelopeAsyncRequestFuture();
+
+			StartCoroutine(RequestHandlingCoroutine(envelope, responseFuture, onResponse));
+
+			return responseFuture;
+		}
+
+		/// <summary>
+		/// Handles a request using a Unity3D coroutine. Yields waits until the response has been recieved.
+		/// </summary>
+		/// <typeparam name="TResponseType">The expected response type.</typeparam>
+		/// <param name="envelope">Request envelope to send.</param>
+		/// <param name="userFuture">User provided future (the future the user is holding)</param>
+		/// <param name="onResponseCallback">The callback requested.</param>
+		/// <returns>An enumerable-style collection. (Coroutine)</returns>
+		private IEnumerator RequestHandlingCoroutine(RequestEnvelope envelope, ResponseEnvelopeAsyncRequestFuture userFuture, Action<ResponseEnvelope> onResponseCallback)
+		{
+			//Pass the request to the internal network service and poll the future when it's done
+			IFuture<ResponseEnvelope> internalProvidedFuture = innerAsyncNetworkService.SendRequestAsResponseFuture(envelope, userFuture);
+
+			//generic polling for futures and callbacks
+			yield return WaitForCompletedRequest(internalProvidedFuture, onResponseCallback);
+		}
+
 		//TODO: Consolidate all async request/response in a single coroutine.
 		/// <summary>
 		/// Handles a request using a Unity3D coroutine. Yields waits until the response has been recieved.
