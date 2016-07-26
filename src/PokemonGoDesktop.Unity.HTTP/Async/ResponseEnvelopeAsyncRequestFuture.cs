@@ -10,6 +10,52 @@ using System.Text;
 namespace PokemonGoDesktop.Unity.HTTP
 {
 	/// <summary>
+	/// ResponseEnvelope-based implementation of <see cref="IFuture{ResponseEnvelope}"/> to be used for async
+	/// requests.
+	/// </summary>
+	public class ResponseEnvelopeAsyncRequestFuture : IFuture<ResponseEnvelope>, IAsyncCallBackTarget
+	{
+		//We can't really know what thread this is on so we should lock
+		private readonly object syncObj = new object();
+
+		/// <summary>
+		/// Indicates if the <see cref="ResponseEnvelope"/> is available.
+		/// </summary>
+		public bool isCompleted { get; protected set; }
+
+		public ResponseEnvelope Result { get; private set; }
+
+		public FutureState ResultState { get; private set; }
+
+		/// <summary>
+		/// Called when <see cref="RestSharp"/> recieves a response envelope async.
+		/// </summary>
+		/// <param name="envelope">Response envelope recieved.</param>
+		public virtual void OnResponse(ResponseEnvelope envelope)
+		{
+			Throw<ArgumentNullException>.If.IsNull(envelope)?.Now(nameof(envelope), $"Recieved a null {nameof(ResponseEnvelope)}");
+
+			//When this is called we should lock because we're about to dramatically change state
+			lock (syncObj)
+			{
+				//We should check the bytes returned in a response
+				//We expect a Payload.
+				if (envelope.Returns.Count > 0)
+				{
+					Result = envelope;
+					ResultState = FutureState.Valid;
+					isCompleted = true;
+				}
+				else
+				{
+					ResultState = FutureState.Invalid;
+					isCompleted = true;
+				}
+			}
+		}
+	}
+
+	/// <summary>
 	/// ResponseEnvelope-based implementation of <see cref="AsyncRequestFuture{TResponseMessageType}"/> to be used for async
 	/// requests.
 	/// </summary>
@@ -71,6 +117,11 @@ namespace PokemonGoDesktop.Unity.HTTP
 						Result = responseProtoMessage;
 						isCompleted = true;
 					}
+				}
+				else
+				{
+					ResultState = FutureState.Invalid;
+					isCompleted = true;
 				}
 			}
 		}

@@ -45,15 +45,27 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Google.Protobuf, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.1.0.12\lib\net35\Google.Protobuf.dll</HintPath>
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.19\lib\net35\Google.Protobuf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Net35Essentials, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Net35Essentials.1.0.2\lib\net35\Net35Essentials.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PokemonGoDesktop.API.Proto, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.1.0.12\lib\net35\PokemonGoDesktop.API.Proto.dll</HintPath>
+    <Reference Include="PokemonGoDesktop.API.Client.Services, Version=1.0.19.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Client.Services.1.0.19\lib\net35\PokemonGoDesktop.API.Client.Services.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PokemonGoDesktop.API.Common, Version=1.0.19.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Common.1.0.19\lib\net35\PokemonGoDesktop.API.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PokemonGoDesktop.API.Proto, Version=1.0.19.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.1.0.19\lib\net35\PokemonGoDesktop.API.Proto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PokemonGoDesktop.API.Proto.Services, Version=1.0.19.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PokemonGoDesktop.API.Proto.Services.1.0.19\lib\net35\PokemonGoDesktop.API.Proto.Services.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SceneJect.Autofac, Version=1.0.14.0, Culture=neutral, processorArchitecture=MSIL">
