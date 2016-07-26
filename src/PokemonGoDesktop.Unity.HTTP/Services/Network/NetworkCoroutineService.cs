@@ -8,6 +8,9 @@ using System.Collections;
 using Easyception;
 using Google.Protobuf;
 using SceneJect.Common;
+using PokemonGoDesktop.API.Client.Services;
+using PokemonGoDesktop.API.Proto.Services;
+using System.Text.RegularExpressions;
 
 namespace PokemonGoDesktop.Unity.HTTP
 {
@@ -31,6 +34,14 @@ namespace PokemonGoDesktop.Unity.HTTP
 		private readonly IAsyncNetworkRequestService innerAsyncNetworkService; //use readonly due to Sceneject
 
 		/// <summary>
+		/// Network session object.
+		/// </summary>
+		[Inject]
+		private readonly IAuthableSession session;
+
+		private string RpcURL = @"https://pgorelease.nianticlabs.com/plfe/rpc";
+
+		/// <summary>
 		/// Cached field for <see cref="AsyncPollTimerSeconds"/> yieldable.
 		/// </summary>
 		WaitForSeconds secondsWait;
@@ -51,6 +62,41 @@ namespace PokemonGoDesktop.Unity.HTTP
 			Throw<ArgumentNullException>.If.IsNull(innerAsyncNetworkService)?.Now(nameof(innerAsyncNetworkService), $"Must have a internal {nameof(IAsyncNetworkRequestService)}.");
 		}
 
+		private void PreProcessRequestEnvelope(RequestEnvelope envelope)
+		{
+			envelope.WithRequestID();
+
+			if(!session.CurrentSessionState.HasFlag(SessionState.HasValidAuthTicket))
+			{
+				//If we don't have an auth ticket
+				//Then we may need the request
+				if(session.CurrentSessionState.HasFlag(SessionState.Authenticated))
+				{
+					envelope.WithAuthenticationMessage(session.Token.TokenType, session.Token.TokenID);
+					return;
+				}
+
+				envelope.WithAuthTicket(session.AuthenticationTicketContainer.Ticket);
+				return;
+			}
+
+			throw new InvalidOperationException("The session was not in a valid state for network requests.");
+		}
+
+
+		private string cachedApiString = null;
+		private string GetRequestUrl()
+		{
+			if (!session.CurrentSessionState.HasFlag(SessionState.HasValidAuthTicket))
+			{
+				return @"/plfe/rpc";
+			}
+			else
+				return cachedApiString == null ? cachedApiString = $@"/plfe/{Regex.Match(session.AuthenticationTicketContainer.ApiUrl, @"+d").Value}/rpc" : cachedApiString;
+
+			throw new InvalidOperationException("The session was not in a valid state for network requests.");
+		}
+
 		/// <summary>
 		/// Tries to send the <see cref="RequestEnvelope"/> message to the network.
 		/// Returns an <typeparamref name="IEnumerable{TResponseType}"/> when completed.
@@ -64,6 +110,8 @@ namespace PokemonGoDesktop.Unity.HTTP
 		{
 			//the delegate can be null. that is fine.
 			Throw<ArgumentNullException>.If.IsNull(envelope)?.Now(nameof(envelope), $"Cannot send a null {nameof(RequestEnvelope)} with {nameof(NetworkCoroutineService)}");
+
+			PreProcessRequestEnvelope(envelope);
 
 			ResponseEnvelopeAsyncRequestFutures<TResponseType> responseFutures = new ResponseEnvelopeAsyncRequestFutures<TResponseType>();
 
@@ -84,6 +132,8 @@ namespace PokemonGoDesktop.Unity.HTTP
 			//the delegate can be null. that is fine.
 			Throw<ArgumentNullException>.If.IsNull(envelope)?.Now(nameof(envelope), $"Cannot send a null {nameof(RequestEnvelope)} with {nameof(NetworkCoroutineService)}");
 
+			PreProcessRequestEnvelope(envelope);
+
 			//We need to generate the async token and pass it to the coroutine
 			//so that we can provide it to the caller and pass it to the internal service
 			ResponseEnvelopeAsyncRequestFuture<TResponseType> responseFuture = new ResponseEnvelopeAsyncRequestFuture<TResponseType>();
@@ -99,6 +149,8 @@ namespace PokemonGoDesktop.Unity.HTTP
 		{
 			//the delegate can be null. that is fine.
 			Throw<ArgumentNullException>.If.IsNull(envelope)?.Now(nameof(envelope), $"Cannot send a null {nameof(RequestEnvelope)} with {nameof(NetworkCoroutineService)}");
+
+			PreProcessRequestEnvelope(envelope);
 
 			ResponseEnvelopeAsyncRequestFuture responseFuture = new ResponseEnvelopeAsyncRequestFuture();
 
@@ -118,7 +170,7 @@ namespace PokemonGoDesktop.Unity.HTTP
 		private IEnumerator RequestHandlingCoroutine(RequestEnvelope envelope, ResponseEnvelopeAsyncRequestFuture userFuture, Action<ResponseEnvelope> onResponseCallback)
 		{
 			//Pass the request to the internal network service and poll the future when it's done
-			IFuture<ResponseEnvelope> internalProvidedFuture = innerAsyncNetworkService.SendRequestAsResponseFuture(envelope, userFuture);
+			IFuture<ResponseEnvelope> internalProvidedFuture = innerAsyncNetworkService.SendRequestAsResponseFuture(envelope, userFuture, GetRequestUrl());
 
 			//generic polling for futures and callbacks
 			yield return WaitForCompletedRequest(internalProvidedFuture, onResponseCallback);
@@ -137,7 +189,7 @@ namespace PokemonGoDesktop.Unity.HTTP
 			where TResponseType : class, IResponseMessage, IMessage, IMessage<TResponseType>, new()
 		{
 			//Pass the request to the internal network service and poll the future when it's done
-			IFuture<TResponseType> internalProvidedFuture = innerAsyncNetworkService.SendRequestAsFuture<TResponseType, ResponseEnvelopeAsyncRequestFuture<TResponseType>>(envelope, userFuture);
+			IFuture<TResponseType> internalProvidedFuture = innerAsyncNetworkService.SendRequestAsFuture<TResponseType, ResponseEnvelopeAsyncRequestFuture<TResponseType>>(envelope, userFuture, GetRequestUrl());
 
 			//generic polling for futures and callbacks
 			yield return WaitForCompletedRequest(internalProvidedFuture, onResponseCallback);
@@ -154,7 +206,12 @@ namespace PokemonGoDesktop.Unity.HTTP
 			where TFutureType : class
 		{
 			while (!internalProvidedFuture.isCompleted)
+			{
+#if DEBUG || DEBUGBUILD
+				Debug.Log("Waiting for response.");
+#endif
 				yield return secondsWait;
+			}
 
 			//Once we hit here the request has been completed.
 			//Could technically be failed but the API doesn't expose that to this higher level service.
@@ -184,7 +241,7 @@ namespace PokemonGoDesktop.Unity.HTTP
 			where TResponseType : class, IResponseMessage, IMessage, IMessage<TResponseType>, new()
 		{
 			//Pass the request to the internal network service and poll the future when it's done
-			IFuture<IEnumerable<TResponseType>> internalProvidedFuture = innerAsyncNetworkService.SendRequestAsFutures<TResponseType, ResponseEnvelopeAsyncRequestFutures<TResponseType>>(envelope, userFutures);
+			IFuture<IEnumerable<TResponseType>> internalProvidedFuture = innerAsyncNetworkService.SendRequestAsFutures<TResponseType, ResponseEnvelopeAsyncRequestFutures<TResponseType>>(envelope, userFutures, GetRequestUrl());
 
 			//generic polling for futures and callbacks
 			yield return WaitForCompletedRequest(internalProvidedFuture, onResponseCallback);

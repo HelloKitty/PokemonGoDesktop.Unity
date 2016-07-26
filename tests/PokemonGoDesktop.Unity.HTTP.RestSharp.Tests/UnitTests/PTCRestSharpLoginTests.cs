@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using PokemonGoDesktop.API.Client.Services;
+using PokemonGoDesktop.API.Proto;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,34 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp.Tests
 
 			Assert.IsTrue(token.isValid);
 			Assert.IsTrue(!String.IsNullOrEmpty(token.TokenID));
+
+			RestSharpAsyncNetworkRequestService requestService = new RestSharpAsyncNetworkRequestService(@"https://pgorelease.nianticlabs.com");
+
+
+			RequestEnvelope env = new API.Proto.RequestEnvelope().WithRequestID();
+			env.WithAuthenticationMessage(API.Common.AuthType.PTC, token.TokenID);
+
+			IFuture<ResponseEnvelope> response = requestService.SendRequestAsResponseFuture(env, new TestObject(), @"/plfe/rpc");
+
+			Thread.Sleep(5000);
+
+			Assert.NotNull(response);
+			Assert.True(response.isCompleted);
+			Assert.True(response.ResultState == FutureState.Valid);
+		}
+
+		public class TestObject : IFuture<ResponseEnvelope>, IAsyncCallBackTarget
+		{
+			public bool isCompleted { get; }
+
+			public ResponseEnvelope Result { get; }
+
+			public FutureState ResultState { get; }
+
+			public void OnResponse(ResponseEnvelope envelope)
+			{
+				
+			}
 		}
 	}
 }

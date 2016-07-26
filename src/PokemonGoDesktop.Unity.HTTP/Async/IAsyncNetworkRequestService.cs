@@ -19,7 +19,7 @@ namespace PokemonGoDesktop.Unity.HTTP
 		/// </summary>
 		/// <param name="envelope">Envolope to send.</param>
 		/// <returns>An awaitable future result.</returns>
-		IFuture<TResponseType> SendRequestAsFuture<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture)
+		IFuture<TResponseType> SendRequestAsFuture<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture, string url)
 			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
 			where TFutureType : IFuture<TResponseType>, IAsyncCallBackTarget;
 
@@ -29,7 +29,7 @@ namespace PokemonGoDesktop.Unity.HTTP
 		/// </summary>
 		/// <param name="envelope">Envolope to send.</param>
 		/// <returns>An awaitable future result.</returns>
-		IFuture<IEnumerable<TResponseType>> SendRequestAsFutures<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture)
+		IFuture<IEnumerable<TResponseType>> SendRequestAsFutures<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture, string url)
 			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
 			where TFutureType : IFuture<IEnumerable<TResponseType>>, IAsyncCallBackTarget;
 
@@ -39,7 +39,7 @@ namespace PokemonGoDesktop.Unity.HTTP
 		/// </summary>
 		/// <param name="envelope">Envolope to send.</param>
 		/// <returns>An awaitable future result.</returns>
-		IFuture<ResponseEnvelope> SendRequestAsResponseFuture<TFutureType>(RequestEnvelope envelope, TFutureType responseEnvelopeFuture)
+		IFuture<ResponseEnvelope> SendRequestAsResponseFuture<TFutureType>(RequestEnvelope envelope, TFutureType responseEnvelopeFuture, string url)
 			where TFutureType : IFuture<ResponseEnvelope>, IAsyncCallBackTarget;
 	}
 }

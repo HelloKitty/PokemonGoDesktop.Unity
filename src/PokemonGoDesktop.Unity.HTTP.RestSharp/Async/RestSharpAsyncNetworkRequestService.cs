@@ -28,22 +28,20 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		/// Creates a new <see cref="RestSharpAsyncNetworkRequestService"/> with the default PokemonGo
 		/// headers.
 		/// </summary>
-		public RestSharpAsyncNetworkRequestService()
+		public RestSharpAsyncNetworkRequestService(string baseUrl)
 		{
 			//headers based on: https://github.com/FeroxRev/Pokemon-Go-Rocket-API/blob/master/PokemonGo.RocketAPI/Client.cs
-			httpClient = new RestClient();
+			httpClient = new RestClient(baseUrl);
 
 
-			httpClient.AddDefaultHeader("User-Agent", "Niantic App");
+			//httpClient.AddDefaultHeader("User-Agent", "Niantic App");
 			//"Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-G900F Build/LMY48G)");
 
 			//Rocket-API has HttpClient continue expected setup so this is the equivalent.
 			ServicePointManager.Expect100Continue = true;
 
-			httpClient.AddDefaultHeader("Connection", "keep-alive");
-			httpClient.AddDefaultHeader("Accept", "*/*");
-			httpClient.AddDefaultHeader("Content-Type",
-				"application/x-www-form-urlencoded");
+			//httpClient.AddDefaultHeader("Connection", "keep-alive");
+			//httpClient.AddDefaultHeader("Accept", "*/*");
 
 			//This is for an unused feature right now.
 			//It will eventually be implemented
@@ -66,13 +64,15 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		/// </summary>
 		/// <param name="envelope">Envolope to send.</param>
 		/// <returns>An awaitable future result.</returns>
-		public IFuture<TResponseType> SendRequestAsFuture<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture)
+		public IFuture<TResponseType> SendRequestAsFuture<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture, string url)
 			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
 			where TFutureType : IFuture<TResponseType>, IAsyncCallBackTarget
 		{
-			//TODO: Add URL/URI
+			//TODO: Replace this with something more efficienct
+			httpClient.BaseUrl = new Uri(url);
+
 			//TODO: Verify header stuff
-			IRestRequest request = new RestRequest().AddParameter(new Parameter() { Value = envelope.ToByteArray() });
+			IRestRequest request = new RestRequest().AddParameter("application/x-www-form-urlencoded", envelope.ToByteArray(), ParameterType.RequestBody);
 			request.Method = Method.POST;
 
 			var requestFuture = new RestSharpAsyncRequestFutureDeserializationDecorator<TFutureType, TResponseType>(responseMessageFuture);
@@ -92,13 +92,16 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		/// </summary>
 		/// <param name="envelope">Envolope to send.</param>
 		/// <returns>An awaitable future result.</returns>
-		public IFuture<IEnumerable<TResponseType>> SendRequestAsFutures<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture)
+		public IFuture<IEnumerable<TResponseType>> SendRequestAsFutures<TResponseType, TFutureType>(RequestEnvelope envelope, TFutureType responseMessageFuture, string url)
 			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
 			where TFutureType : IFuture<IEnumerable<TResponseType>>, IAsyncCallBackTarget
 		{
+			//TODO: Replace this with something more efficienct
+			httpClient.BaseUrl = new Uri(url);
+
 			//TODO: Add URL/URI
 			//TODO: Verify header stuff
-			IRestRequest request = new RestRequest().AddParameter(new Parameter() { Value = envelope.ToByteArray() });
+			IRestRequest request = new RestRequest().AddParameter("application/x-www-form-urlencoded", envelope.ToByteArray(), ParameterType.RequestBody);
 			request.Method = Method.POST;
 
 			var requestFuture = new RestSharpAsyncRequestFuturesDeserializationDecorator<TFutureType, TResponseType>(responseMessageFuture);
@@ -118,12 +121,12 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		/// </summary>
 		/// <param name="envelope">Envolope to send.</param>
 		/// <returns>An awaitable future result.</returns>
-		public IFuture<ResponseEnvelope> SendRequestAsResponseFuture<TFutureType>(RequestEnvelope envelope, TFutureType responseEnvelopeFuture)
+		public IFuture<ResponseEnvelope> SendRequestAsResponseFuture<TFutureType>(RequestEnvelope envelope, TFutureType responseEnvelopeFuture, string url)
 			where TFutureType : IFuture<ResponseEnvelope>, IAsyncCallBackTarget
 		{
 			//TODO: Add URL/URI
 			//TODO: Verify header stuff
-			IRestRequest request = new RestRequest().AddParameter(new Parameter() { Value = envelope.ToByteArray() });
+			IRestRequest request = new RestRequest(url).AddParameter("application/x-www-form-urlencoded", envelope.ToByteArray(), ParameterType.RequestBody);
 			request.Method = Method.POST;
 
 			var requestFuture = new RestSharpAsyncRequestFutureDeserializationDecorator<TFutureType>(responseEnvelopeFuture);

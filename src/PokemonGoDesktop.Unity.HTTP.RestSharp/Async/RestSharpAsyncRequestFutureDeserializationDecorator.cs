@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 {
@@ -15,7 +16,7 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 	/// <typeparam name="TResponseMessageType">The response type the decorated future provides.</typeparam>
 	public class RestSharpAsyncRequestFutureDeserializationDecorator<TDecoratedFutureType, TResponseMessageType> : AsyncRequestFuture<TResponseMessageType>, IAsyncRestResponseCallBackTarget
 		where TResponseMessageType : class, IResponseMessage, IMessage<TResponseMessageType>, IMessage, new()
-		where TDecoratedFutureType : IFuture<IResponseMessage>, IAsyncCallBackTarget
+		where TDecoratedFutureType : IFuture<TResponseMessageType>, IAsyncCallBackTarget
 	{
 		/// <summary>
 		/// Managed and decorated future.
@@ -30,6 +31,32 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			get
 			{
 				return decoratedFuture.ResultState;
+			}
+
+			protected set
+			{
+				//do nothing
+			}
+		}
+
+		public override bool isCompleted
+		{
+			get
+			{
+				return decoratedFuture.isCompleted;
+			}
+
+			protected set
+			{
+				//do nothing
+			}
+		}
+
+		public override TResponseMessageType Result
+		{
+			get
+			{
+				return decoratedFuture.Result;
 			}
 
 			protected set
@@ -92,7 +119,18 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			}
 		}
 
-		public bool isCompleted { get; private set; }
+		public bool isCompleted
+		{
+			get
+			{
+				return decoratedFuture.isCompleted;
+			}
+
+			protected set
+			{
+				//do nothing
+			}
+		}
 
 		public ResponseEnvelope Result { get; private set; }
 
@@ -107,6 +145,8 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 		/// <param name="envelope">Response envelope recieved.</param>
 		public void OnResponse(IRestResponse response)
 		{
+			//Debug.Log($"Recieved {this.GetType().Name} on response");
+
 			ResponseEnvelope resEnv = new ResponseEnvelope();
 
 			//At this point we've got a response
@@ -115,7 +155,11 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			{
 				resEnv.MergeFrom(response.RawBytes);
 				decoratedFuture.OnResponse(resEnv);
+
+				Result = resEnv;
 			}
+			else
+				throw new InvalidOperationException($"No {nameof(ResponseEnvelope)} contained within message body of response. Code: {response.StatusCode}");
 
 			//TODO: Handle exceptions
 		}

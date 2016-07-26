@@ -27,6 +27,19 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			}
 		}
 
+		public override bool isCompleted
+		{
+			get
+			{
+				return decoratedFuture.isCompleted;
+			}
+
+			protected set
+			{
+				//do nothing
+			}
+		}
+
 		public RestSharpAsyncRequestFuturesDeserializationDecorator(TDecoratedFutureType futureToDecorate)
 		{
 			decoratedFuture = futureToDecorate;
