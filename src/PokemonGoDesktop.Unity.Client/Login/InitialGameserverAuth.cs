@@ -19,26 +19,17 @@ namespace PokemonGoDesktop.Unity.Common
 	public class OnAuthTicketRecievedEvent : UnityEvent<AuthTicketContainer> { }
 
 	[Serializable]
-	public class OnPlayerProfileObtainedEvent : UnityEvent<GetPlayerProfileResponse> { }
-
-	[Serializable]
 	public class OnErrorWithAuthTicketEvent : UnityEvent<string> { }
 
 	/// <summary>
 	/// Components for initial authoration to the Pokemon Go gameserver.
 	/// </summary>
 	[Injectee]
-	public class InitialGameserverAuth : MonoBehaviour
+	public class InitialGameserverAuth : MonoBehaviour //can't make this a response callback because it's special and accesses the ResponseEnevelope
 	{
 		//Injected Dependencies
 		[Inject]
 		private readonly IAsyncUserNetworkRequestService requestService;
-
-		/// <summary>
-		/// Invoked when a player profile is recieved.
-		/// </summary>
-		[SerializeField]
-		private OnPlayerProfileObtainedEvent OnPlayerProfileObtained;
 
 		/// <summary>
 		/// Invoked when the <see cref="AuthTicket"/> is recieved.
@@ -86,9 +77,8 @@ namespace PokemonGoDesktop.Unity.Common
 				return;
 			}
 
-			//First we want to dispatch the Auth ticket.
+			//dispatch the AuthTicket to any listeners
 			OnAuthTicketRecieved?.Invoke(new AuthTicketContainer(envelope.AuthTicket, envelope.ApiUrl));
-			//OnPlayerProfileObtained?.Invoke(profile);
 		}
 	}
 }
