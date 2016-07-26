@@ -94,6 +94,7 @@
     <Compile Include="Login\AuthenticationUIObserverDispatcher .cs" />
     <Compile Include="Login\IUserAuthServiceFactory.cs" />
     <Compile Include="Login\LoginUrlDetails.cs" />
+    <Compile Include="Network\IRequestSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\RequestBuilderService.cs" />
     <Compile Include="Serialization\ResponseEnvelopeParserService.cs" />

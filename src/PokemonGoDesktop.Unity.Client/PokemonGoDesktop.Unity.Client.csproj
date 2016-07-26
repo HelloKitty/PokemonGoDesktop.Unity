@@ -94,7 +94,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Login\InitialGameserverAuth.cs" />
+    <Compile Include="Network\RequestComponent.cs" />
+    <Compile Include="RequestComponents\GetPlayerProfileComponent.cs" />
+    <Compile Include="RequestComponents\InitialGameserverAuth.cs" />
     <Compile Include="Login\UserAuthServiceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -115,6 +117,7 @@
       <Name>PokemonGoDesktop.Unity.HTTP</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /Q /Y /R "$(TargetDir)*.dll" "$(SolutionDir)Build"

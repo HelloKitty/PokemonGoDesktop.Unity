@@ -97,6 +97,19 @@ namespace PokemonGoDesktop.Unity.HTTP
 			throw new InvalidOperationException("The session was not in a valid state for network requests.");
 		}
 
+		//TODO: Document
+		public AsyncRequestFuture<TResponseType> SendRequest<TResponseType>(RequestEnvelope envelope, IResponseCallbackTargetable<TResponseType> callback)
+			where TResponseType : class, IResponseMessage, IMessage, IMessage<TResponseType>, new()
+		{
+			return SendRequest(envelope, (Action<TResponseType>)(callback.OnResponse));
+		}
+
+		public AsyncRequestFutures<TResponseType> SendRequest<TResponseType>(RequestEnvelope envelope, IResponsesCallbackTargetable<TResponseType> callback)
+			where TResponseType : class, IResponseMessage, IMessage, IMessage<TResponseType>, new()
+		{
+			return SendRequest(envelope, (Action<IEnumerable<TResponseType>>)(callback.OnResponse));
+		}
+
 		/// <summary>
 		/// Tries to send the <see cref="RequestEnvelope"/> message to the network.
 		/// Returns an <typeparamref name="IEnumerable{TResponseType}"/> when completed.
