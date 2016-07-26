@@ -25,12 +25,8 @@ namespace PokemonGoDesktop.Unity.Common
 	/// Components for initial authoration to the Pokemon Go gameserver.
 	/// </summary>
 	[Injectee]
-	public class InitialGameserverAuth : MonoBehaviour //can't make this a response callback because it's special and accesses the ResponseEnevelope
+	public class InitialGameserverAuth : RequestComponent //can't make this a response callback because it's special and accesses the ResponseEnevelope
 	{
-		//Injected Dependencies
-		[Inject]
-		private readonly IAsyncUserNetworkRequestService requestService;
-
 		/// <summary>
 		/// Invoked when the <see cref="AuthTicket"/> is recieved.
 		/// </summary>
@@ -42,15 +38,6 @@ namespace PokemonGoDesktop.Unity.Common
 		/// </summary>
 		[SerializeField]
 		private OnErrorWithAuthTicketEvent OnErrorWithAuthTicket;
-
-		void Start() //check in start; not Awake
-		{
-			Throw<ArgumentNullException>.If.IsNull(requestService)
-				?.Now(nameof(requestService), $"Must have a non-null {nameof(IAsyncUserNetworkRequestService)} in {nameof(InitialGameserverAuth)}.");
-
-			//RequestType.GetPlayerProfile, RequestType.GetHatchedEggs, RequestType.GetInventory,
-			//    RequestType.CheckAwardedBadges, RequestType.DownloadSettings);
-		}
 
 		//another try authenticate method
 		public void TryAuthenticate()
