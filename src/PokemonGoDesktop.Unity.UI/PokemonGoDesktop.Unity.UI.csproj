@@ -53,6 +53,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\Loading\LoadingBarDriver.cs" />
+    <Compile Include="Game\Profile\PlayerStatsUIObserver.cs" />
     <Compile Include="Game\Profile\PlayerDataUIObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
