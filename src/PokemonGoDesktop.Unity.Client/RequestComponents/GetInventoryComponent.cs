@@ -47,7 +47,8 @@ namespace PokemonGoDesktop.Unity.Client
 
 		public void SendRequest()
 		{
-			requestService.SendRequest(new Request() { RequestType = RequestType.GetInventory, RequestMessage = new GetPlayerMessage().ToByteString() }.PackInEnvelope(), this);
+			//TODO: Fill in parameters for the message
+			requestService.SendRequest(new Request() { RequestType = RequestType.GetInventory, RequestMessage = new GetInventoryMessage().ToByteString() }.PackInEnvelope(), this);
 		}
 	}
 }
