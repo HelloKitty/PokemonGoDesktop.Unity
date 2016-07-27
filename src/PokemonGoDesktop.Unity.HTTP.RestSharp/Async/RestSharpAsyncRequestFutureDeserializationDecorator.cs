@@ -132,7 +132,13 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			}
 		}
 
-		public ResponseEnvelope Result { get; private set; }
+		public ResponseEnvelope Result
+		{
+			get
+			{
+				return decoratedFuture.Result;
+			}
+		}
 
 		public RestSharpAsyncRequestFutureDeserializationDecorator(TDecoratedFutureType futureToDecorate)
 		{
@@ -155,8 +161,6 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			{
 				resEnv.MergeFrom(response.RawBytes);
 				decoratedFuture.OnResponse(resEnv);
-
-				Result = resEnv;
 			}
 			else
 				throw new InvalidOperationException($"No {nameof(ResponseEnvelope)} contained within message body of response. Code: {response.StatusCode}");

@@ -33,15 +33,11 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			//headers based on: https://github.com/FeroxRev/Pokemon-Go-Rocket-API/blob/master/PokemonGo.RocketAPI/Client.cs
 			httpClient = new RestClient(baseUrl);
 
-
-			//httpClient.AddDefaultHeader("User-Agent", "Niantic App");
+			httpClient.AddDefaultHeader("User-Agent", "Niantic App");
 			//"Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-G900F Build/LMY48G)");
 
 			//Rocket-API has HttpClient continue expected setup so this is the equivalent.
 			ServicePointManager.Expect100Continue = true;
-
-			//httpClient.AddDefaultHeader("Connection", "keep-alive");
-			//httpClient.AddDefaultHeader("Accept", "*/*");
 
 			//This is for an unused feature right now.
 			//It will eventually be implemented

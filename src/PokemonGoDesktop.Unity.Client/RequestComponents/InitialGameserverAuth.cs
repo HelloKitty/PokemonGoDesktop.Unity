@@ -64,6 +64,10 @@ namespace PokemonGoDesktop.Unity.Common
 				return;
 			}
 
+#if DEBUG || DEBUGBUILD
+			Debug.Log($"Recieved auth response API URL: {envelope.ApiUrl}");
+#endif
+
 			//dispatch the AuthTicket to any listeners
 			OnAuthTicketRecieved?.Invoke(new AuthTicketContainer(envelope.AuthTicket, envelope.ApiUrl));
 		}
