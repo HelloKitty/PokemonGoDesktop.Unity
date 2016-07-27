@@ -95,7 +95,7 @@ namespace PokemonGoDesktop.Unity.HTTP
 				return @"/plfe/rpc";
 			}
 			else
-				return cachedApiString == null ? cachedApiString = $@"/plfe/{Regex.Match(session.AuthenticationTicketContainer.ApiUrl, @"\+d").Value}/rpc" : cachedApiString;
+				return cachedApiString == null ? cachedApiString = $@"/plfe{Regex.Match(session.AuthenticationTicketContainer.ApiUrl, @"\+d").Value}/rpc" : cachedApiString;
 
 			throw new InvalidOperationException("The session was not in a valid state for network requests.");
 		}
