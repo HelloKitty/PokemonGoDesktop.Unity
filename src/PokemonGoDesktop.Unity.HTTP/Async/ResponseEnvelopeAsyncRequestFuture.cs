@@ -108,21 +108,15 @@ namespace PokemonGoDesktop.Unity.HTTP
 
 					if(responseProtoMessage != null)
 					{
-						ResultState = FutureState.Invalid;
-						isCompleted = true;
-					}
-					else
-					{
 						ResultState = FutureState.Valid;
 						Result = responseProtoMessage;
 						isCompleted = true;
+						return;
 					}
 				}
-				else
-				{
-					ResultState = FutureState.Invalid;
-					isCompleted = true;
-				}
+
+				ResultState = FutureState.Invalid;
+				isCompleted = true;
 			}
 		}
 	}

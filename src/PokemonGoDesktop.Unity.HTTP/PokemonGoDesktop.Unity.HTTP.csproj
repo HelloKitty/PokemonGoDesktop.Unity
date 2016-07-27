@@ -101,6 +101,7 @@
     <Compile Include="Async\IAsyncUserNetworkRequestService.cs" />
     <Compile Include="Async\IFuture.cs" />
     <Compile Include="Async\IAsyncCallBackTarget.cs" />
+    <Compile Include="Async\IResponseCallbackTargetable.cs" />
     <Compile Include="Async\ResponseEnvelopeAsyncRequestFutures.cs" />
     <Compile Include="Async\ResponseEnvelopeAsyncRequestFuture.cs" />
     <Compile Include="Async\ResponseState.cs" />

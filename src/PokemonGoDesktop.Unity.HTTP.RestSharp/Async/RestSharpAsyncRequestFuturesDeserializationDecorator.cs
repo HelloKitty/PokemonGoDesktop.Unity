@@ -40,6 +40,19 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			}
 		}
 
+		public override IEnumerable<TResponseMessageType> Result
+		{
+			get
+			{
+				return decoratedFuture.Result;
+			}
+
+			protected set
+			{
+				base.Result = value;
+			}
+		}
+
 		public RestSharpAsyncRequestFuturesDeserializationDecorator(TDecoratedFutureType futureToDecorate)
 		{
 			decoratedFuture = futureToDecorate;

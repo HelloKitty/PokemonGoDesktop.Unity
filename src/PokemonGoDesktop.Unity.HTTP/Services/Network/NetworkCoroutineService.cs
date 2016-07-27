@@ -70,17 +70,19 @@ namespace PokemonGoDesktop.Unity.HTTP
 			{
 				//If we don't have an auth ticket
 				//Then we may need the request
-				if(session.CurrentSessionState.HasFlag(SessionState.Authenticated))
+				if (session.CurrentSessionState.HasFlag(SessionState.Authenticated))
 				{
 					envelope.WithAuthenticationMessage(session.Token.TokenType, session.Token.TokenID);
 					return;
 				}
-
+			}
+			else
+			{
 				envelope.WithAuthTicket(session.AuthenticationTicketContainer.Ticket);
 				return;
 			}
 
-			throw new InvalidOperationException("The session was not in a valid state for network requests.");
+			throw new InvalidOperationException($"The session was not in a valid state for network requests.");
 		}
 
 
@@ -92,9 +94,32 @@ namespace PokemonGoDesktop.Unity.HTTP
 				return @"/plfe/rpc";
 			}
 			else
-				return cachedApiString == null ? cachedApiString = $@"/plfe/{Regex.Match(session.AuthenticationTicketContainer.ApiUrl, @"+d").Value}/rpc" : cachedApiString;
+			{
+#if DEBUG || DEBUGBUILD
+				string val = cachedApiString == null ? cachedApiString = $@"/plfe/{Regex.Match(session.AuthenticationTicketContainer.ApiUrl, @"([0-9]+)").Value}/rpc" : cachedApiString; //look here to see Regex in action https://regex101.com/r/eL3mK3/8
+
+				Debug.Log($"RPC URL: {session.AuthenticationTicketContainer.ApiUrl} and Regex produces {Regex.Match(session.AuthenticationTicketContainer.ApiUrl, @"([0-9]+)").Value} and full string is {val}.");
+
+				return val;
+#else
+				return cachedApiString == null ? cachedApiString = $@"/plfe/{Regex.Match(session.AuthenticationTicketContainer.ApiUrl, @"\/([0-9]+)").Value}/rpc" : cachedApiString; //look here to see Regex in action https://regex101.com/r/eL3mK3/8
+#endif
+			}
 
 			throw new InvalidOperationException("The session was not in a valid state for network requests.");
+		}
+
+		//TODO: Document
+		public AsyncRequestFuture<TResponseType> SendRequest<TResponseType>(RequestEnvelope envelope, IResponseCallbackTargetable<TResponseType> callback)
+			where TResponseType : class, IResponseMessage, IMessage, IMessage<TResponseType>, new()
+		{
+			return SendRequest(envelope, (Action<TResponseType>)(callback.OnResponse));
+		}
+
+		public AsyncRequestFutures<TResponseType> SendRequest<TResponseType>(RequestEnvelope envelope, IResponsesCallbackTargetable<TResponseType> callback)
+			where TResponseType : class, IResponseMessage, IMessage, IMessage<TResponseType>, new()
+		{
+			return SendRequest(envelope, (Action<IEnumerable<TResponseType>>)(callback.OnResponse));
 		}
 
 		/// <summary>
