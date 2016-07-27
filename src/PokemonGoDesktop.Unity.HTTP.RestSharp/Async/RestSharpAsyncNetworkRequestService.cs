@@ -68,11 +68,8 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
 			where TFutureType : IFuture<TResponseType>, IAsyncCallBackTarget
 		{
-			//TODO: Replace this with something more efficienct
-			httpClient.BaseUrl = new Uri(url);
-
 			//TODO: Verify header stuff
-			IRestRequest request = new RestRequest().AddParameter("application/x-www-form-urlencoded", envelope.ToByteArray(), ParameterType.RequestBody);
+			IRestRequest request = new RestRequest(url).AddParameter("application/x-www-form-urlencoded", envelope.ToByteArray(), ParameterType.RequestBody);
 			request.Method = Method.POST;
 
 			var requestFuture = new RestSharpAsyncRequestFutureDeserializationDecorator<TFutureType, TResponseType>(responseMessageFuture);
@@ -96,12 +93,9 @@ namespace PokemonGoDesktop.Unity.HTTP.RestSharp
 			where TResponseType : class, IResponseMessage, IMessage<TResponseType>, IMessage, new()
 			where TFutureType : IFuture<IEnumerable<TResponseType>>, IAsyncCallBackTarget
 		{
-			//TODO: Replace this with something more efficienct
-			httpClient.BaseUrl = new Uri(url);
-
 			//TODO: Add URL/URI
 			//TODO: Verify header stuff
-			IRestRequest request = new RestRequest().AddParameter("application/x-www-form-urlencoded", envelope.ToByteArray(), ParameterType.RequestBody);
+			IRestRequest request = new RestRequest(url).AddParameter("application/x-www-form-urlencoded", envelope.ToByteArray(), ParameterType.RequestBody);
 			request.Method = Method.POST;
 
 			var requestFuture = new RestSharpAsyncRequestFuturesDeserializationDecorator<TFutureType, TResponseType>(responseMessageFuture);
