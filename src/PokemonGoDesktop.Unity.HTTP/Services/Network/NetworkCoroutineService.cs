@@ -70,17 +70,20 @@ namespace PokemonGoDesktop.Unity.HTTP
 			{
 				//If we don't have an auth ticket
 				//Then we may need the request
-				if(session.CurrentSessionState.HasFlag(SessionState.Authenticated))
+				if (session.CurrentSessionState.HasFlag(SessionState.Authenticated))
 				{
 					envelope.WithAuthenticationMessage(session.Token.TokenType, session.Token.TokenID);
 					return;
 				}
-
+			}
+			else
+			{
 				envelope.WithAuthTicket(session.AuthenticationTicketContainer.Ticket);
 				return;
 			}
 
-			throw new InvalidOperationException("The session was not in a valid state for network requests.");
+
+			throw new InvalidOperationException($"The session was not in a valid state for network requests.");
 		}
 
 
@@ -92,7 +95,7 @@ namespace PokemonGoDesktop.Unity.HTTP
 				return @"/plfe/rpc";
 			}
 			else
-				return cachedApiString == null ? cachedApiString = $@"/plfe/{Regex.Match(session.AuthenticationTicketContainer.ApiUrl, @"+d").Value}/rpc" : cachedApiString;
+				return cachedApiString == null ? cachedApiString = $@"/plfe/{Regex.Match(session.AuthenticationTicketContainer.ApiUrl, @"\+d").Value}/rpc" : cachedApiString;
 
 			throw new InvalidOperationException("The session was not in a valid state for network requests.");
 		}
