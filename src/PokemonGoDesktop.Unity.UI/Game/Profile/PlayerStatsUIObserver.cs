@@ -29,7 +29,7 @@ namespace PokemonGoDesktop.Unity.UI
 		public void OnObserved(PlayerStats value)
 		{
 			//compute the new percentage EXP
-			float percentageComplete = ((float)value.Experience) / ((float)(value.NextLevelXp - value.PrevLevelXp));
+			float percentageComplete = ((float)value.Experience - value.PrevLevelXp) / ((float)(value.NextLevelXp - value.PrevLevelXp));
 
 #if DEBUG || DEBUGBUILD
 			Debug.Log($"Experience {value.Experience} with Prev {value.PrevLevelXp} with Next {value.NextLevelXp}.");
